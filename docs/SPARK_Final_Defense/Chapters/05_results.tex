@@ -39,7 +39,41 @@ The current Python suite passed 65 tests with 48 dependency warnings, and the re
 The tracker reports OpenVINO timing on an Intel Core Ultra 7 155H gateway over 5,000 inferences: CPU 0.131 ms, GPU 0.200 ms, and NPU 0.383 ms. These are \textbf{historical reported results}; the raw benchmark run and its complete warm-up/timing configuration were not reproduced here. They are not ESP32 latency, end-to-end detection delay, or power measurements.
 
 \section{Power and feasibility estimates}
-Using the nominal 1100 mAh capacity and assuming steady 90--130 mA current gives an idealized $t=C/I$ range of about 8.5--12.2 hours. This is an illustrative estimate, not measured endurance. Usable capacity, regulator losses, protection thresholds, sampling/radio duty cycle, and battery condition change the result. Older 8--11 h and 16--28 h narratives have incompatible mode assumptions and must not be presented as measured battery findings.
+Operational endurance is governed by the effective battery capacity and the time-averaged subsystem current:
+\begin{equation}
+t = \frac{C_{\mathrm{eff}}}{I_{\mathrm{avg}}} = \frac{\eta_{\mathrm{usable}} \cdot C_{\mathrm{nom}}}{I_{\mathrm{avg}}}
+\label{eq:battery_endurance}
+\end{equation}
+where $C_{\mathrm{nom}} = 1100\,\mathrm{mAh}$ denotes nominal cell capacity, $\eta_{\mathrm{usable}} \in [0.85, 0.95]$ represents usable discharge headroom before Low-Dropout (LDO) regulator dropout ($V_{\mathrm{cutoff}} \approx 3.3\,\mathrm{V}$), and $I_{\mathrm{avg}}$ is the average composite current.
+
+Component current values extracted from official manufacturer datasheets are compiled in Table~\ref{tab:power_budget}.
+
+\begin{table}[htbp]
+\centering
+\caption{Subsystem electrical current specifications from manufacturer datasheets.}
+\label{tab:power_budget}
+\small
+\begin{tabular}{@{}llrl@{}}
+\toprule
+\textbf{Subsystem} & \textbf{Operating Mode / Condition} & \textbf{Current ($I$)} & \textbf{Reference} \\
+\midrule
+ESP32-S3 & Modem-sleep, 240\,MHz dual-core 32-bit active & 66.2--81.3\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 240\,MHz dual-core 128-bit SIMD & 91.7--107.9\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 160\,MHz single/dual-core 32-bit & 39.9--64.1\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 80\,MHz single/dual-core 32-bit & 28.4--47.3\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Light-sleep ($V_{\mathrm{DD\_SPI}}$ \& RF gated) & 0.24\,mA & \cite{espressif2024esp32s3}, Tab.~5-10 \\
+ESP32-S3 & Bluetooth LE RX active & 93.0\,mA & \cite{espressif2024esp32s3}, Tab.~5-8 \\
+ESP32-S3 & Bluetooth LE TX active @ 0\,dBm (100\% duty) & 176.0\,mA & \cite{espressif2024esp32s3}, Tab.~5-8 \\
+MPU-6050 & Gyroscope + Accelerometer normal operating & 3.8\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
+MPU-6050 & Accelerometer-only low power & 0.5\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
+MPU-6050 & Full-chip idle / sleep & 0.005\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The planning range of $90\text{--}130\,\mathrm{mA}$ represents an illustrative active-radio operating assumption for an unoptimized development board. Under this regime, the ESP32-S3 executes continuously at 240\,MHz without Dynamic Frequency Scaling (DFS) or modem sleep ($66.2\text{--}81.3\,\mathrm{mA}$ base, with intermittent SPI flash access contributing $\sim 10\,\mathrm{mA}$ per Table~5-9 Note~3), the MPU-6050 continuously samples all 6 axes ($3.8\,\mathrm{mA}$), and periodic BLE advertising/polling bursts add an unmeasured average RF draw. Onboard development board parasitics (e.g., linear regulator quiescent current $I_q \approx 5\text{--}11\,\mathrm{mA}$ and power indicator LEDs $\approx 1\text{--}3\,\mathrm{mA}$) further increase load. Peak demand during SIMD neural inference passes ($91.7\text{--}107.9\,\mathrm{mA}$) and BLE packet transmissions ($176\,\mathrm{mA}$) elevates transient consumption toward the $130\,\mathrm{mA}$ ceiling.
+
+Under this $90\text{--}130\,\mathrm{mA}$ assumption, nominal cell capacity ($C_{\mathrm{nom}} = 1100\,\mathrm{mAh}$) yields an idealized $t = C/I$ window of $8.5\text{--}12.2\,\mathrm{hours}$, or $7.2\text{--}10.4\,\mathrm{hours}$ accounting for a realistic usable capacity factor ($\eta_{\mathrm{usable}} = 0.85$). While firmware optimizations (e.g., scaling CPU clock to 80--160\,MHz, duty-cycled BLE connection intervals, and low-quiescent custom power regulators) have the theoretical potential to reduce average current, actual battery endurance cannot be asserted from datasheet arithmetic alone. Empirical multi-regime current logging on physical hardware remains required to validate battery lifetime. Older narratives citing 8--11\,h active and 16--28\,h gated mixed active draw with hypothetical deep-sleep assumptions and are superseded by this derivation.
 
 \section{Statistical and domain limitations}
 Saved point estimates lack subject-clustered confidence intervals and complete immutable split manifests. Correlated windows are not independent volunteers. Future uncertainty analysis should resample at the subject or episode level, retaining paired predictions and reporting 95\% confidence intervals. For demographic cohorts with $n<30$, flag insufficient sample support and avoid subgroup rankings; the overall exploratory pilot must still report counts and limitations.
@@ -47,25 +81,25 @@ Saved point estimates lack subject-clustered confidence intervals and complete i
 Event sensitivity, false alarms per hour, physical timing, wrist transfer, and elderly clinical performance remain unmeasured. Integrated evaluation must include every annotated fall, including gate rejections; classifier recall alone conceals gate misses.
 
 \section{Kinematic Feature Attribution and Explainability Analysis}
-To quantify model interpretability and audit sensor channel contributions during impact events (Issue~\#12), gradient-weighted feature attributions ($A_{t,c} = X_{t,c} \frac{\partial P(\mathrm{FALL})}{\partial X_{t,c}}$) were evaluated across 300 held-out true positive fall windows and ambiguous high-acceleration Activities of Daily Living (ADLs) using the trained 1D CNN model.
+Input-times-gradient attribution shows that the 1D CNN distributes its sensitivity across all six IMU axes with a modest $a_z$ lead, and it does not show temporal concentration within a fixed impact segment. Attributions $A_{t,c} = X_{t,c}\,\partial P(\mathrm{FALL})/\partial X_{t,c}$ were computed for 300 fall-labelled windows sampled (seed 42) from the 6{,}712-window subject-disjoint test split, and for up to 30 windows each of four high-acceleration ADL codes (Issue~\#12). Windows were sampled by label, not filtered by correct prediction. Per window, absolute attributions were summed over time and normalized to unit sum across channels. These are gradient saliency summaries, not Shapley values; the ``shap'' prefix in figure filenames is a legacy identifier.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{Figures/fig_shap_channel_attribution.pdf}
-\caption{Normalized channel-level feature attributions across the 6 IMU axes for held-out true falls. Deceleration shock along the vertical axis ($a_z$, 21.0\%) and lateral slip ($a_y$, 18.6\%) constitute dominant linear markers, while roll ($\omega_x$, 17.4\%) captures rapid posture collapse.}
+\caption{Mean normalized channel attribution over 300 held-out fall-labelled windows. A uniform split would assign 16.7\% per channel; error bars (one standard deviation) overlap across most channels.}
 \label{fig:shap_channel}
 \end{figure}
 
-As summarized in Figure~\ref{fig:shap_channel}, linear accelerometer channels contribute $57.8\%$ of total attribution, while multi-axis angular velocity contributes $41.8\%$. Vertical ground deceleration ($a_z$) constitutes the single largest individual kinematic contributor ($21.0 \pm 19.1\%$), corroborated by lateral shear ($a_y$, $18.6 \pm 15.3\%$) and roll velocity ($\omega_x$, $17.4 \pm 11.1\%$).
+Accelerometer channels receive $57.8\%$ of attribution and gyroscope channels $41.8\%$ (Figure~\ref{fig:shap_channel}). The largest single channel is $a_z$ ($21.0 \pm 19.1\%$), followed by $a_y$ ($18.6 \pm 15.3\%$), $a_x$ ($18.2 \pm 18.5\%$), and $\omega_x$ ($17.4 \pm 11.1\%$); $\omega_z$ is lowest ($9.6 \pm 10.2\%$). The leading channels sit within a few percentage points of the uniform $16.7\%$ and their per-window spread exceeds the gaps between them, so the ranking is not stable at the window level. The defensible reading is that the model uses all axes, with weaker reliance on yaw rate, rather than that it detects a specific vertical-impact signature. Axis labels are in the device frame; without a fixed wrist orientation they do not map to gravity-aligned ``vertical'' or ``lateral'' directions.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{Figures/fig_shap_temporal_saliency.pdf}
-\caption{Temporal kinematics and saliency dynamics across a 2.0-second (200-sample) true fall window. The model concentrates attention sharply within the dynamic impact envelope ($t \in [0.8, 1.4]\,\text{s}$).}
+\caption{Signal and absolute attribution for the single highest-scoring sampled fall window (200 samples at 100\,Hz). The shaded band marks the fixed 0.8--1.4\,s segment, which is not aligned to an annotated impact; this example is illustrative and not representative of the cohort.}
 \label{fig:shap_temporal}
 \end{figure}
 
-Temporal phase decomposition confirms that the network allocates $31.0\%$ of its total saliency mass strictly to the shock impact envelope ($0.8\text{--}1.4\,\text{s}$), with $38.5\%$ allocated to the pre-impact postural destabilization phase ($0.0\text{--}0.8\,\text{s}$), and $30.1\%$ to the post-impact stillness/recovery phase ($1.4\text{--}2.0\,\text{s}$).
+Across the 300 windows, the fixed segments receive $38.5\%$ (0.0--0.8\,s), $31.0\%$ (0.8--1.4\,s), and $30.1\%$ (1.4--2.0\,s) of attribution mass. These segments cover $40\%$, $30\%$, and $30\%$ of the samples, so attribution is distributed in proportion to duration and shows no concentration in the middle segment. Because falls are not aligned to a common impact time across windows, this null result does not show that the model ignores impact; it shows that fixed-segment averaging cannot test that claim. An impact-aligned analysis, re-centring each window on its peak acceleration magnitude, is required before any temporal claim is made.
 
 \begin{figure}[htbp]
 \centering
@@ -74,4 +108,4 @@ Temporal phase decomposition confirms that the network allocates $31.0\%$ of its
 \label{fig:shap_adl_contrast}
 \end{figure}
 
-Figure~\ref{fig:shap_adl_contrast} illustrates the model's discriminative attribution mechanism against challenging ADLs. During brisk chair sitting (D08) and jumping (D15), vertical deceleration attribution drops to $6.6\%$ and $8.9\%$ respectively, dominated instead by controlled lateral and rotational stabilization ($a_y$, $\omega_x$). In stumbling without falling (D13), attributions disperse across recovery channels rather than concentrating on an acute vertical shock envelope, preventing false alarms while preserving fall sensitivity.
+For the ADL groups (Figure~\ref{fig:shap_adl_contrast}), $a_z$ attribution is lower than for falls: $6.6\%$ (D08), $15.2\%$ (D13), $8.9\%$ (D15), and $10.6\%$ (D17). D08, D15, and D17 instead concentrate on $a_y$ ($36$--$43\%$) and $\omega_x$ ($24$--$38\%$), while D13 is spread more evenly. This shows that the gradient of $P(\mathrm{FALL})$ responds to different channels for these activities. It does not show how the classifier rejects them: attribution is reported for all sampled windows regardless of predicted class, group sizes are at most 30 windows drawn from few subjects, and no per-activity false-alarm rate is reported alongside. Linking attribution patterns to false-alarm behaviour requires the per-activity confusion counts and subject-level resampling described in the statistical limitations above.
