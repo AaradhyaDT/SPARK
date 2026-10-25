@@ -58,3 +58,7 @@ class TestHtmlReport:
         assert "EVT-TEST-CUSTOM-42" in content
         assert "W_X AXIS" in content
         assert "Severe lateral tumble detected." in content
+        # Verify dynamic pillar synthesis
+        assert "angular velocity" in content.lower()
+        assert "tumbling motion" in content.lower()
+        assert "high impact severity" in content.lower()

@@ -251,6 +251,37 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
         else f"Wearable telemetry detected confirmed fall impact. Primary kinematics vector identified as {data.shap_top_feature} axis."
     )
 
+    # Lean dynamic synthesis for the 4 executive pillars based on specific triggering channel
+    top_ch = data.shap_top_feature.lower()
+    if top_ch == "a_z":
+        p1_text = f"Primary deceleration localized along vertical axis (<strong>{html.escape(data.shap_top_feature)}</strong>), confirming direct downward ground impact dynamics."
+    elif top_ch == "a_y":
+        p1_text = f"Primary deceleration localized along lateral axis (<strong>{html.escape(data.shap_top_feature)}</strong>), indicating a side-slip or lateral tumble onto hip/shoulder."
+    elif top_ch == "a_x":
+        p1_text = f"Primary deceleration localized along longitudinal axis (<strong>{html.escape(data.shap_top_feature)}</strong>), indicating an anterior/posterior stumble or collapse."
+    elif top_ch.startswith("w_"):
+        p1_text = f"Dominant kinematic trigger driven by angular velocity (<strong>{html.escape(data.shap_top_feature)}</strong>), confirming rapid body rotation preceding impact."
+    else:
+        p1_text = f"Primary deceleration localized along the <strong>{html.escape(data.shap_top_feature)}</strong> channel."
+
+    max_gyro_val = max(abs(data.shap_values.get(g, 0.0)) for g in ("w_x", "w_y", "w_z"))
+    if max_gyro_val >= 0.18:
+        p2_text = "Multi-axis angular velocity confirms coordinated posture collapse and tumbling motion preceding impact."
+    else:
+        p2_text = "Low angular rotation indicates linear slip or vertical collapse with minimal body rotation."
+
+    if data.cnn_confidence >= 0.85:
+        p3_text = "Layer-1 MCU acceleration threshold (&ge;2.5g for &gt;300ms) corroborated by high-confidence Layer-2 CNN temporal inference."
+    else:
+        p3_text = "Layer-1 gate triggered near boundary; moderate Layer-2 inference suggests low-impact or partial slip event."
+
+    if data.severity_score >= 0.85:
+        p4_text = "High impact severity: Immediate caregiver or attending triage required to inspect for acute orthopedic or head trauma."
+    elif data.severity_score >= 0.65:
+        p4_text = "Moderate impact severity: Attending review recommended to evaluate patient mobility and pain symptoms."
+    else:
+        p4_text = "Low impact severity: Check patient status; verify whether bed transfer or vigorous arm gesture caused alert."
+
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -672,7 +703,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         Kinematic Shock Vector
                     </div>
                     <p class="plain-pillar-text">
-                        Primary deceleration localized along the <strong>{html.escape(data.shap_top_feature)}</strong> channel, confirming acute vertical ground impact dynamics.
+                        {p1_text}
                     </p>
                 </div>
                 <div class="plain-pillar">
@@ -681,7 +712,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         Rotational Instability
                     </div>
                     <p class="plain-pillar-text">
-                        Angular velocity cross-product indicates coordinated posture collapse preceding peak dorsal impact shock wave.
+                        {p2_text}
                     </p>
                 </div>
                 <div class="plain-pillar">
@@ -690,7 +721,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         Layer-1 Gate Timing
                     </div>
                     <p class="plain-pillar-text">
-                        MCU Layer-1 acceleration threshold (&ge;2.5g for &gt;300ms) successfully triggered Layer-2 CNN temporal inference window.
+                        {p3_text}
                     </p>
                 </div>
                 <div class="plain-pillar">
@@ -699,7 +730,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         Clinical Action
                     </div>
                     <p class="plain-pillar-text">
-                        Caregiver triage assessment required to evaluate patient ambulation stability, orthopedic integrity, and false-alarm status.
+                        {p4_text}
                     </p>
                 </div>
             </div>

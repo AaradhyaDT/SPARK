@@ -1,16 +1,33 @@
-# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v59)
+# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v60)
 
 _Optimized for day-to-day use. Full history/rationale archive moved to §7
 (Appendix) — read once, not needed for weekly tracking._
 
 > **Thesis audit snapshot (October 14, 2026; Issue #13):** Independent [mid-defense](../docs/SPARK_Mid_Defense/main.tex) and [final-defense draft](../docs/SPARK_Final_Defense/main.tex) sources preserve KEC metadata and the proposal. See [report index](../docs/THESIS_REPORTS.md) for PDFs and evidence boundaries. Current model preprocessing is 100 Hz, 200×6, 2 s; a 200 Hz logger is a separate planned acquisition path. Driver/TFLite code is stubbed, so model embedding does not establish on-device execution. October model/config results and the August test/quantization reports are separate generations; October safety threshold 0.4236 in the Colab log conflicts with 0.4065 in metadata. Laptop timing and battery estimates do not establish wearable measurements. Human fall detection remains primary; robotics is a planned, unexecuted protocol. Calendar dates remain unset.
 
-**Last updated:** October 20, 2026 (v59 — Comprehensive Project State vs. Final Deliverable Audit & Subsystem Gap Analysis) ·
+**Last updated:** October 25, 2026 (v60 — Clinical Incident Report Redesign, Headless Blink PDF Exporter & Dynamic Narrative Synthesis) ·
 
 > **Resumption timing update (October 13, 2026):** Hardware procurement is now expected to start next semester, after the Dashain, Tihar, and Chhath holidays. Until then, prioritize work that does not depend on ordered parts: reconcile the canonical BOM and open sourcing questions, complete and review the data collection protocol, and prepare ethics-submission materials. Hardware assembly, logger bring-up, and volunteer data collection remain gated on parts being available and required institutional approval. The week-based dates in older plans are superseded by this dependency order; schedule calendar dates with the team next semester.
 
 > [!NOTE]
 > **Board Exam Pause Notice (August 22, 2026)**: Research, thesis proposal documentation, and data collection software infrastructure locked for board examinations. See [`docs/SPARK_POST_BOARDS_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/SPARK_POST_BOARDS_MASTER_PLAN.md) and [`docs/DATA_COLLECTION_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/DATA_COLLECTION_MASTER_PLAN.md) for full context snapshot and execution roadmaps.
+
+**v60 change log (October 25, 2026 — Clinical Incident Report Redesign, Headless Blink PDF Exporter & Dynamic Narrative Synthesis):**
+
+- **Clinical Incident Dossier Formatting Refinement:**
+  - Modernized HTML report generator (`gateway/report/html_report.py`) with a 60-30-10 palette (`#1e293b`, `#1b365d`, `#0f766e`, `#991b1b`, `#b45309`, `#f1f5f9`) and LaTeX Computer Modern / Latin Modern Roman serif typography.
+  - Formatted 4-card executive output metrics strip (`STATUS`, `L2 CONFIDENCE`, `IMPACT SEVERITY`, `TOP TRIGGER`).
+  - Implemented dynamic 4-pillar narrative synthesis translating triggering channels ($a_z$ vertical, $a_y$ lateral slip, $a_x$ longitudinal stumble, $\omega$ rotational tumble) and triage severity.
+  - Added inline SVG confidence and severity whiskers with $[0.0, 1.0]$ base axes and decision thresholds.
+  - Added inline SVG horizontal attribution bars with full `#f1f5f9` background tracks, proportional fills, and numeric values.
+  - Added diagnostic Kinematic Saliency notice card and formal clinician signoff block.
+- **Headless Blink HTML-to-PDF Exporter:**
+  - Deployed `gateway/report/pdf_exporter.py` leveraging native system Blink engine (Microsoft Edge / Chrome) with `--headless=new --print-to-pdf` and absolute path resolution.
+  - Re-routed `gateway/report/pdf_report.py` to compile crisp vector PDFs directly from the styled HTML dossier, with seamless fallback to ReportLab canvas.
+  - Added batch reconciliation utility (`scripts/regenerate_reports.py`) generating both HTML and PDF dossiers for all 21 stored gateway events plus standard dummy test events (22 dossiers).
+- **Test Suite & Gateway API Integration:**
+  - Exposed both PDF (`/api/reports/{id}`) and HTML (`/api/reports/{id}.html`) endpoints in FastAPI daemon (`gateway/server.py`).
+  - Added test suites (`tests/test_html_report.py`, `tests/test_pdf_report.py`) verifying rendering, dynamic pillar synthesis, and PDF generation (73/73 project tests passing).
 
 **v59 change log (October 20, 2026 — Comprehensive Project State vs. Final Deliverable Audit & Subsystem Gap Analysis):**
 
