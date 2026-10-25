@@ -7,11 +7,14 @@ reporting implementing the 60-30-10 palette and SHAP visualization hierarchy.
 """
 
 from gateway.report.html_report import generate_html_report
+from gateway.report.pdf_exporter import convert_html_to_pdf, find_blink_browser
 from gateway.report.pdf_report import DUMMY_EVENT, ReportData, generate_report
 
 __all__ = [
     "DUMMY_EVENT",
     "ReportData",
+    "convert_html_to_pdf",
+    "find_blink_browser",
     "generate_html_report",
     "generate_report",
 ]

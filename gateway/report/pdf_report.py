@@ -336,12 +336,31 @@ def _draw_signature_block(c: canvas.Canvas, y: float) -> None:
 
 def generate_report(data: ReportData, output_path: str | Path) -> str:
     """
-    Renders a clinical one-page PDF report to output_path.
-    Returns the resolved output path as a string.
+    Renders a publication-grade clinical PDF report to output_path.
+    Compiles from the HTML report via headless Blink (Edge/Chrome)
+    to preserve 100% vector typography, inline SVG whiskers, and booktabs tables.
+    Falls back to native ReportLab canvas if Blink engine is unavailable.
     """
-    out_file = Path(output_path)
+    out_file = Path(output_path).resolve()
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
+    # 1. Primary path: headless Blink compilation from HTML report
+    try:
+        from gateway.report.html_report import generate_html_report
+        from gateway.report.pdf_exporter import convert_html_to_pdf
+
+        temp_html = out_file.with_suffix(".temp.html")
+        generate_html_report(data, temp_html)
+        convert_html_to_pdf(temp_html, out_file)
+        if temp_html.exists():
+            temp_html.unlink()
+        if out_file.exists() and out_file.stat().st_size > 1000:
+            return str(out_file)
+    except Exception:
+        # Fall back gracefully to ReportLab
+        pass
+
+    # 2. Fallback path: native ReportLab canvas drawing
     c = canvas.Canvas(str(out_file), pagesize=A4)
     y = _draw_header(c, data)
     y = _draw_detection_summary(c, data, y)

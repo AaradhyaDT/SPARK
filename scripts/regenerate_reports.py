@@ -15,7 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from gateway.report.html_report import generate_html_report
-from gateway.report.pdf_report import DUMMY_EVENT, ReportData, generate_report
+from gateway.report.pdf_exporter import convert_html_to_pdf
+from gateway.report.pdf_report import DUMMY_EVENT, ReportData
 
 
 def regenerate_all_reports(store_dir: str | Path = "data/gateway_events") -> dict[str, int]:
@@ -68,13 +69,13 @@ def regenerate_all_reports(store_dir: str | Path = "data/gateway_events") -> dic
         pdf_path = base_dir / f"SPARK_Report_{event_id}.pdf"
         html_path = base_dir / f"SPARK_Report_{event_id}.html"
 
-        # Re-render PDF with 60-30-10 palette and calibrated tracks
-        generate_report(report_data, pdf_path)
-        pdf_count += 1
-
-        # Render companion HTML with inline SVG attribution bars
+        # 1. Render standalone HTML dossier
         generate_html_report(report_data, html_path)
         html_count += 1
+
+        # 2. Compile directly to publication-grade PDF via Blink headless engine
+        convert_html_to_pdf(html_path, pdf_path)
+        pdf_count += 1
 
         # Keep JSON pointer in sync
         record["report_path"] = str(pdf_path)
@@ -84,8 +85,8 @@ def regenerate_all_reports(store_dir: str | Path = "data/gateway_events") -> dic
     # Also re-generate the standard sample dummy reports
     sample_pdf = base_dir / "sample_clinical_report.pdf"
     sample_html = base_dir / "sample_clinical_report.html"
-    generate_report(DUMMY_EVENT, sample_pdf)
     generate_html_report(DUMMY_EVENT, sample_html)
+    convert_html_to_pdf(sample_html, sample_pdf)
     pdf_count += 1
     html_count += 1
 
