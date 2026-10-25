@@ -177,7 +177,7 @@ Follow Tasks 5–8 in [`RUPESH_FIRMWARE_PRE_HARDWARE_GUIDE.md`](file:///f:/Aarad
 | **Layer 2 Model Size** | 18.5 KB (INT8 quantized) | Fits easily in ESP32-S3 Flash |
 | **Tensor Arena** | 35–36.2 KB SRAM budget | TFLite Micro workspace for inference |
 | **Layer 2 Latency Target** | < 15 ms per inference | ESP32-S3 + esp-nn SIMD acceleration |
-| **Battery** | 1100 mAh LiPo + TP4056 charger | 8–11 hours active, 16–28 hours gated |
+| **Battery** | 1100 mAh LiPo + TP4056 charger | Unmeasured; idealized C/I estimate ~8.5–12.2 h at an assumed 90–130 mA (see thesis §Power) |
 | **Communication** | BLE 5.0 GATT | JSON payload ~250–350 bytes per event |
 | **Serial Baud (Logger)** | 921,600 baud | For high-speed 200 Hz data collection mode |
 
