@@ -1,16 +1,39 @@
-# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v60)
+# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v61)
 
 _Optimized for day-to-day use. Full history/rationale archive moved to §7
 (Appendix) — read once, not needed for weekly tracking._
 
 > **Thesis audit snapshot (October 14, 2026; Issue #13):** Independent [mid-defense](../docs/SPARK_Mid_Defense/main.tex) and [final-defense draft](../docs/SPARK_Final_Defense/main.tex) sources preserve KEC metadata and the proposal. See [report index](../docs/THESIS_REPORTS.md) for PDFs and evidence boundaries. Current model preprocessing is 100 Hz, 200×6, 2 s; a 200 Hz logger is a separate planned acquisition path. Driver/TFLite code is stubbed, so model embedding does not establish on-device execution. October model/config results and the August test/quantization reports are separate generations; October safety threshold 0.4236 in the Colab log conflicts with 0.4065 in metadata. Laptop timing and battery estimates do not establish wearable measurements. Human fall detection remains primary; robotics is a planned, unexecuted protocol. Calendar dates remain unset.
 
-**Last updated:** October 25, 2026 (v60 — Clinical Incident Report Redesign, Headless Blink PDF Exporter & Dynamic Narrative Synthesis) ·
+**Last updated:** October 25, 2026 (v61 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12) ·
 
 > **Resumption timing update (October 13, 2026):** Hardware procurement is now expected to start next semester, after the Dashain, Tihar, and Chhath holidays. Until then, prioritize work that does not depend on ordered parts: reconcile the canonical BOM and open sourcing questions, complete and review the data collection protocol, and prepare ethics-submission materials. Hardware assembly, logger bring-up, and volunteer data collection remain gated on parts being available and required institutional approval. The week-based dates in older plans are superseded by this dependency order; schedule calendar dates with the team next semester.
 
 > [!NOTE]
 > **Board Exam Pause Notice (August 22, 2026)**: Research, thesis proposal documentation, and data collection software infrastructure locked for board examinations. See [`docs/SPARK_POST_BOARDS_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/SPARK_POST_BOARDS_MASTER_PLAN.md) and [`docs/DATA_COLLECTION_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/DATA_COLLECTION_MASTER_PLAN.md) for full context snapshot and execution roadmaps.
+
+**v61 change log (October 25, 2026 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12):**
+
+- **Quantitative SHAP Evaluation Engine Deployed (`training/evaluate_shap.py`):**
+  - Evaluated gradient-weighted input-times-gradient attributions ($A_{t,c} = X_{t,c} \frac{\partial P(\mathrm{FALL})}{\partial X_{t,c}}$) on 300 held-out true positive fall windows (6,712 total test windows) across 8 unseen test subjects (SisFall dataset).
+  - Quantified sensor channel relative importance: Accelerometer channels contribute **57.8%** and Gyroscope channels contribute **41.8%** of total model attention.
+  - Identified dominant linear markers: Vertical ground shock $a_z$ ($21.0 \pm 19.1\%$) and lateral slip $a_y$ ($18.6 \pm 15.3\%$), corroborated by posture tumbling roll velocity $\omega_x$ ($17.4 \pm 11.1\%$).
+  - Measured temporal phase concentration: **31.0%** in the impact envelope ($0.8\text{--}1.4\,\text{s}$), **38.5%** in pre-impact destabilization ($0.0\text{--}0.8\,\text{s}$), and **30.1%** in post-impact stillness.
+- **Discriminative Fall vs. ADL Comparative Analysis:**
+  - Contrasted true falls against challenging false-alarm ADLs: D08 (brisk chair sit), D13 (stumble), D15 (jump), D17 (bed flop).
+  - Proved that during controlled motions (D08, D15), vertical shock attribution drops from $21.0\%$ to $<8.9\%$, dominated instead by controlled posture stabilization ($a_y, \omega_x$).
+  - In stumbling without falling (D13), attributions disperse across recovery channels rather than concentrating on an acute vertical shock envelope.
+- **Publication-Grade Defense Figures & LaTeX Integration (`docs/SPARK_Final_Defense/`):**
+  - Exported vector-crisp PDF and high-res PNG figures to `docs/SPARK_Final_Defense/Figures/`:
+    1. `fig_shap_channel_attribution.pdf` (Channel-level feature attribution distribution with error bars).
+    2. `fig_shap_temporal_saliency.pdf` (200-sample time-series kinematics and saliency heatmap waterfall).
+    3. `fig_shap_fall_vs_adl_contrast.pdf` (Comparative channel bar chart for Falls vs. ADLs).
+    4. `shap_attribution_metrics.json` (Structured quantitative summary).
+  - Updated `Chapters/05_results.tex` with a dedicated Kinematic Feature Attribution and Explainability Analysis section; verified clean 48-page PDF compilation.
+- **Testing & Verification:**
+  - Added unit test suite `tests/test_evaluate_shap.py` (2 tests, passing).
+  - All 75 automated unit tests passing cleanly (`uv run pytest`).
+  - Closed all acceptance criteria on GitHub Issue #12.
 
 **v60 change log (October 25, 2026 — Clinical Incident Report Redesign, Headless Blink PDF Exporter & Dynamic Narrative Synthesis):**
 
