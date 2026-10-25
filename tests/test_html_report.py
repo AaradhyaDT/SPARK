@@ -23,6 +23,8 @@ class TestHtmlReport:
         assert "#991b1b" in raw_html  # Top trigger alert crimson
         assert "#f1f5f9" in raw_html  # Attribution track background
         assert "Diagnostic Kinematic Saliency Notice" in raw_html
+        assert "Operational Threshold" in raw_html
+        assert "Triage Status" in raw_html
 
     def test_generate_html_file(self, tmp_path: Path):
         out_html = tmp_path / "test_report.html"

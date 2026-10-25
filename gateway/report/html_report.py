@@ -643,7 +643,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
     <div class="container">
         <header>
             <h1>SPARK — Clinical Fall Incident Report &amp; Explainability Dossier</h1>
-            <p style="color: var(--text-muted); margin: 0;">Diagnostic Wearable Fall Kinematics Evaluation &amp; Regulatory Traceability Report</p>
+            <p style="color: var(--text-muted); margin: 0;">Diagnostic Wearable Fall Kinematics Evaluation &amp; Clinical Traceability Report</p>
             <div class="meta-grid">
                 <div class="meta-item">
                     <span class="meta-label">Incident Event ID</span>
@@ -749,8 +749,8 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         <th>Point Estimate</th>
                         <th>95% Confidence Interval</th>
                         <th class="ci-bar-cell">Visual Metric Whisker [0.0, 1.0]</th>
-                        <th>Compliance Status</th>
-                        <th>Regulatory Contract Mapping</th>
+                        <th>Triage Status</th>
+                        <th>Operational Threshold</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -760,7 +760,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         <td>[{max(data.cnn_confidence - 0.05, 0.0):.3f}, {min(data.cnn_confidence + 0.05, 1.0):.3f}]</td>
                         <td class="ci-bar-cell">{conf_whisker}</td>
                         <td><span class="badge {verdict_badge}">{verdict_text}</span></td>
-                        <td><small>EU AI Act Art. 10(2) / ASTM E3130 §6.2</small></td>
+                        <td><small>&tau; &ge; 0.50 (MCU Triggered Window)</small></td>
                     </tr>
                     <tr>
                         <td><strong>Kinematic Impact Severity</strong></td>
@@ -768,7 +768,7 @@ def generate_html_report(data: ReportData, output_path: str | Path | None = None
                         <td>[{max(data.severity_score - 0.08, 0.0):.3f}, {min(data.severity_score + 0.08, 1.0):.3f}]</td>
                         <td class="ci-bar-cell">{sev_whisker}</td>
                         <td><span class="badge {"badge-warn" if data.severity_score >= 0.70 else "badge-pass"}">{"HIGH IMPACT" if data.severity_score >= 0.70 else "MODERATE IMPACT"}</span></td>
-                        <td><small>MDR (EU) 2017/745 Annex I / NIST AI RMF 2.11</small></td>
+                        <td><small>Peak &ge; 2.5g Hysteresis (&gt;300ms)</small></td>
                     </tr>
                 </tbody>
             </table>
