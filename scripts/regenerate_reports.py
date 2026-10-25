@@ -4,7 +4,7 @@ regenerate_reports.py
 
 Batch report reconciler and generator for SPARK Gateway.
 Re-renders all archived incident events in data/gateway_events using the
-harmonized BiasAperture 60-30-10 palette, inline SVG attribution tracks,
+harmonized 60-30-10 palette, inline SVG attribution tracks,
 and dual-format companion PDF and HTML dossiers.
 """
 
@@ -82,8 +82,8 @@ def regenerate_all_reports(store_dir: str | Path = "data/gateway_events") -> dic
         event_file.write_text(json.dumps(record, indent=2), encoding="utf-8")
 
     # Also re-generate the standard sample dummy reports
-    sample_pdf = base_dir / "sample_biasaperture_report.pdf"
-    sample_html = base_dir / "sample_biasaperture_report.html"
+    sample_pdf = base_dir / "sample_clinical_report.pdf"
+    sample_html = base_dir / "sample_clinical_report.html"
     generate_report(DUMMY_EVENT, sample_pdf)
     generate_html_report(DUMMY_EVENT, sample_html)
     pdf_count += 1

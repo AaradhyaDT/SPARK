@@ -62,7 +62,7 @@ DUMMY_EVENT = ReportData(
 )
 
 
-# 60-30-10 Harmonized Palette (BiasAperture / Compliance Report Harmonizer standard)
+# 60-30-10 Harmonized Palette
 # 60% Canvas & Body Slate | 30% Structural Navy | 10% Gem-Toned Accents
 COLOR_BODY_SLATE = colors.HexColor("#1e293b")  # Deep Charcoal Slate body text
 COLOR_STRUCT_NAVY = colors.HexColor("#1b365d")  # Structural Navy (Headers, formal rules)
@@ -72,7 +72,7 @@ COLOR_BORDER_SLATE = colors.HexColor("#cbd5e1")  # Subtle divider lines
 COLOR_CARD_BG = colors.HexColor("#f8fafc")  # Neutral card background
 
 # Gem-toned accents & status tints (10%)
-COLOR_ACCENT_TEAL = colors.HexColor("#0f766e")  # Base SHAP attribution bar (BiasAperture standard)
+COLOR_ACCENT_TEAL = colors.HexColor("#0f766e")  # Base SHAP attribution bar
 COLOR_PARITY_GREEN = colors.HexColor("#166534")  # Normal status badge
 COLOR_ALERT_CRIMSON = colors.HexColor("#991b1b")  # Top trigger feature & Confirmed fall
 COLOR_ALERT_CRIMSON_BG = colors.HexColor("#fdf2f2")  # Crimson card background
@@ -87,7 +87,7 @@ MARGIN = 18 * mm
 
 
 def _draw_header(c: canvas.Canvas, data: ReportData) -> float:
-    """Draws title banner and metadata header with BiasAperture 60-30-10 styling."""
+    """Draws title banner and metadata header with 60-30-10 styling."""
     y = PAGE_H - MARGIN
 
     # Top brand bar (Structural Navy)
@@ -141,7 +141,7 @@ def _draw_detection_summary(c: canvas.Canvas, data: ReportData, y: float) -> flo
     c.line(MARGIN, y - 2 * mm, PAGE_W - MARGIN, y - 2 * mm)
     y -= 6.5 * mm
 
-    # 4-Card Strip (BiasAperture Executive Summary structure)
+    # 4-Card Strip (Executive Summary structure)
     card_gap = 3 * mm
     total_w = PAGE_W - 2 * MARGIN
     box_w = (total_w - 3 * card_gap) / 4
@@ -211,7 +211,7 @@ def _draw_detection_summary(c: canvas.Canvas, data: ReportData, y: float) -> flo
 
 
 def _draw_shap_chart(c: canvas.Canvas, data: ReportData, y: float) -> float:
-    """Draws horizontal SHAP feature attribution bar chart with BiasAperture track styling."""
+    """Draws horizontal SHAP feature attribution bar chart with calibrated track styling."""
     c.setFillColor(COLOR_STRUCT_NAVY)
     c.setFont("Helvetica-Bold", 8.5)
     c.drawString(MARGIN, y, "SHAP EXPLAINABILITY ATTRIBUTION (IMU KINEMATICS)")
@@ -255,7 +255,7 @@ def _draw_shap_chart(c: canvas.Canvas, data: ReportData, y: float) -> float:
         c.setFillColor(COLOR_MUTED_SLATE)
         c.drawRightString(chart_left - 3 * mm, y + 0.8 * mm, label)
 
-        # Background track rectangle (BiasAperture #f1f5f9 track styling)
+        # Background track rectangle (#f1f5f9 track styling)
         c.setFillColor(COLOR_TRACK_SLATE)
         c.rect(chart_left, y, chart_width, bar_height, fill=1, stroke=0)
 
@@ -263,7 +263,7 @@ def _draw_shap_chart(c: canvas.Canvas, data: ReportData, y: float) -> float:
         if ch == data.shap_top_feature:
             bar_color = COLOR_ALERT_CRIMSON  # Primary trigger in crimson
         else:
-            bar_color = COLOR_ACCENT_TEAL  # Standard attribution in BiasAperture teal
+            bar_color = COLOR_ACCENT_TEAL  # Standard attribution in teal
 
         c.setFillColor(bar_color)
         c.rect(chart_left, y, max(bar_w, 0.8), bar_height, fill=1, stroke=0)
@@ -278,7 +278,7 @@ def _draw_shap_chart(c: canvas.Canvas, data: ReportData, y: float) -> float:
 
     y -= 3 * mm
 
-    # Diagnostic Disclaimer Box (BiasAperture Regulatory / Non-Causal Box format)
+    # Diagnostic Disclaimer Box
     disclaimer_h = 13 * mm
     c.setFillColor(COLOR_ALERT_AMBER_BG)
     c.rect(MARGIN, y - disclaimer_h, PAGE_W - 2 * MARGIN, disclaimer_h, fill=1, stroke=0)

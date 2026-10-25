@@ -2,7 +2,7 @@
 test_html_report.py
 
 Unit tests for standalone HTML clinical incident report generation in SPARK Gateway.
-Verifies BiasAperture 60-30-10 visual hierarchy, inline SVG SHAP attribution, and print styling.
+Verifies 60-30-10 visual hierarchy, inline SVG SHAP attribution, and print styling.
 """
 
 from pathlib import Path

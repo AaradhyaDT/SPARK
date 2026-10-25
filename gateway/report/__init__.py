@@ -3,7 +3,7 @@ gateway.report
 
 Clinical incident reporting package for SPARK Gateway (Layer 2).
 Provides dual-mode (PDF via ReportLab and standalone HTML via inline SVG)
-reporting implementing the BiasAperture 60-30-10 palette and SHAP visualization hierarchy.
+reporting implementing the 60-30-10 palette and SHAP visualization hierarchy.
 """
 
 from gateway.report.html_report import generate_html_report
