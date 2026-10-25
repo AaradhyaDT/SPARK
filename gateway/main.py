@@ -37,7 +37,7 @@ from pathlib import Path
 
 from gateway.receiver.receiver import BleReceiver, NullReceiver, ReplayReceiver, SerialReceiver
 from gateway.receiver.wire_format import EventPayload
-from gateway.report.pdf_report import ReportData, generate_report
+from gateway.report import ReportData, generate_html_report, generate_report
 from gateway.shap_pipeline.explainer import ShapExplainer, get_explainer
 from gateway.storage.json_store import JsonEventStore
 
@@ -172,10 +172,13 @@ def handle_event(
         temporal_attributions=shap_result.temporal_attributions,
     )
 
-    # 3. Generate clinical PDF report
+    # 3. Generate clinical PDF & companion HTML reports
     pdf_path = out_dir / f"SPARK_Report_{event.event_id}.pdf"
+    html_path = out_dir / f"SPARK_Report_{event.event_id}.html"
     generate_report(report_data, pdf_path)
+    generate_html_report(report_data, html_path)
     logger.info("Clinical PDF report written to: %s", pdf_path)
+    logger.info("Companion HTML report written to: %s", html_path)
 
     # 4. Save to local JSON store
     store.save_event(event.event_id, event, shap_result, str(pdf_path))

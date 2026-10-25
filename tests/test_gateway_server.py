@@ -39,9 +39,13 @@ def server_fixture(tmp_path: Path):
         top_feature="a_z",
         clinical_summary="High vertical impact detected.",
     )
-    # Create dummy pdf
+    # Create dummy pdf and html
     pdf_path = store_dir / "SPARK_Report_TEST001.pdf"
     pdf_path.write_bytes(b"%PDF-1.4 dummy report content")
+    html_path = store_dir / "SPARK_Report_TEST001.html"
+    html_path.write_text(
+        "<!DOCTYPE html><html><body>SPARK Report HTML</body></html>", encoding="utf-8"
+    )
 
     store.save_event("TEST001", event, shap_res, str(pdf_path))
 
@@ -110,3 +114,12 @@ def test_server_get_pdf_report_not_found(server_fixture: str):
     with pytest.raises(urllib.error.HTTPError) as exc_info:
         urllib.request.urlopen(f"{server_fixture}/api/reports/MISSING")
     assert exc_info.value.code == 404
+
+
+def test_server_get_html_report(server_fixture: str):
+    with urllib.request.urlopen(f"{server_fixture}/api/reports/TEST001.html") as response:
+        assert response.status == 200
+        assert "text/html" in response.headers.get("Content-Type")
+        body = response.read().decode("utf-8")
+        assert "<!DOCTYPE html>" in body
+        assert "SPARK Report HTML" in body

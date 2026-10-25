@@ -243,10 +243,33 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
                 self._send_json(HTTPStatus.NOT_FOUND, {"error": f"Event {event_id} not found"})
             return
 
-        # 5. API PDF Report Download
+        # 5. API Report Download (PDF and HTML)
         if path.startswith("/api/reports/"):
-            event_id = path.split("/api/reports/")[1].strip()
-            # Check for PDF file matching pattern
+            raw_id = path.split("/api/reports/")[1].strip()
+            wants_html = raw_id.endswith(".html") or raw_id.endswith("/html")
+            event_id = raw_id.replace(".html", "").replace("/html", "").replace(".pdf", "")
+
+            if wants_html:
+                html_path = self.store_dir / f"SPARK_Report_{event_id}.html"
+                if not html_path.is_file():
+                    html_path = self.store_dir / f"{event_id}.html"
+                if html_path.is_file():
+                    html_bytes = html_path.read_bytes()
+                    self.send_response(HTTPStatus.OK)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Content-Length", str(len(html_bytes)))
+                    self._set_cors_headers()
+                    self.end_headers()
+                    self.wfile.write(html_bytes)
+                    return
+                else:
+                    self._send_json(
+                        HTTPStatus.NOT_FOUND,
+                        {"error": f"Report HTML for event {event_id} not found"},
+                    )
+                    return
+
+            # Default: PDF file matching pattern
             pdf_path = self.store_dir / f"SPARK_Report_{event_id}.pdf"
             if not pdf_path.is_file():
                 # Fallback to direct event_id.pdf
