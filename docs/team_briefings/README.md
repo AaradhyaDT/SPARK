@@ -1,6 +1,6 @@
 # SPARK — Team Task Briefings Master Index
 
-**Document Version:** 2.2 (October 20, 2026)  
+**Document Version:** 2.3 (October 25, 2026)  
 **Target Window:** Pre-Hardware SIL Phase through Post-Hardware Live Validation  
 **Supervisor:** Er. Dipen Manandhar | **HOD:** Er. Suramya Sharma Dahal  
 **Department:** Electronics, Communication and Information Engineering, KEC / IOE / TU
@@ -17,6 +17,7 @@ These briefing files define the exact, independent deliverables each team member
 
 ### Onboarding Guides (Start Here)
 Every team member has a dedicated high-level starter guide explaining their subsystem in plain language with system architecture diagrams, first-day checklists, and key specifications:
+- **Aaradhya Dev Tamrakar (Lead / ML / Gateway):** [`AARADHYA_START_HERE.md`](AARADHYA_START_HERE.md) & [`AARADHYA_ML_EXPLAINABILITY_GUIDE.md`](AARADHYA_ML_EXPLAINABILITY_GUIDE.md)
 - **Rupesh Kadel (Firmware):** [`RUPESH_START_HERE.md`](RUPESH_START_HERE.md) & [`RUPESH_FIRMWARE_STARTER_REVIEW.md`](RUPESH_FIRMWARE_STARTER_REVIEW.md)
 - **Sankalpa Lamsal (Hardware/CAD):** [`SANKALPA_START_HERE.md`](SANKALPA_START_HERE.md)
 - **Sonia Thapa (Display Client & Clinical):** [`SONIA_START_HERE.md`](SONIA_START_HERE.md)
@@ -27,6 +28,7 @@ Every team member has a dedicated high-level starter guide explaining their subs
 
 | Team Member | Subsystem Ownership | Actionable Briefing Documents | Primary Deliverables (SIL & Post-Hardware) |
 | :--- | :--- | :--- | :--- |
+| **Aaradhya Dev Tamrakar** *(Lead)* | ML, Gateway & Thesis Architecture | [`AARADHYA_START_HERE.md`](AARADHYA_START_HERE.md)<br/>[`AARADHYA_ML_EXPLAINABILITY_GUIDE.md`](AARADHYA_ML_EXPLAINABILITY_GUIDE.md) | **SIL Phase:** 1D CNN training ($87.81\%$ sensitivity), $18.5\text{ KB}$ INT8 quantization (`spark_cnn_int8.h`), BLE/REST gateway daemon (`gateway/server.py`), SHAP explainability engine, Blink PDF reporting suite (Issue #12).<br/>**Post-Hardware:** KEC cohort fine-tuning via transfer learning (`training/train_transfer.py`), live BLE gateway verification, thesis final defense LaTeX document & slide decks (Issue #10, #13). |
 | **Rupesh Kadel** *(79034)* | Embedded Systems & Firmware | [`RUPESH_START_HERE.md`](RUPESH_START_HERE.md)<br/>[`RUPESH_FIRMWARE_PRE_HARDWARE_GUIDE.md`](RUPESH_FIRMWARE_PRE_HARDWARE_GUIDE.md) | **SIL Phase:** Virtual ESP32-S3 execution (QEMU/Wokwi), INT8 TFLite Micro tensor arena profiling, Layer 1 unit tests.<br/>**Post-Hardware:** Physical I2C wiring (GPIO 4/5/6), 200 Hz data logger streaming, ESP-IDF full compilation & static memory audit (Issue #11), BLE GATT notifications (Issue #1), live crash-mat validation. |
 | **Sankalpa Lamsal** *(79039)* | Hardware & Mechanical CAD | [`SANKALPA_START_HERE.md`](SANKALPA_START_HERE.md)<br/>[`SANKALPA_CAD_ENCLOSURE_GUIDE.md`](SANKALPA_CAD_ENCLOSURE_GUIDE.md) | **SIL Phase:** Parametric Fusion 360 3D bracer model (`.step`/`.stl`), virtual assembly with PCB footprints, TPU 95A PrusaSlicer profiles.<br/>**Post-Hardware:** KEC Makerspace 3D printing & weight check (~22g, NPR 90), M2.5 brass heat-set insert installation, wiring harness soldering, drop-impact testing (Issue #4). |
 | **Sonia Thapa** *(79043)* | Display Client & Validation | [`SONIA_START_HERE.md`](SONIA_START_HERE.md)<br/>[`SONIA_MOBILE_CLIENT_GUIDE.md`](SONIA_MOBILE_CLIENT_GUIDE.md)<br/>[`SONIA_HIGH_LEVEL_OVERVIEW.md`](SONIA_HIGH_LEVEL_OVERVIEW.md)<br/>[`SONIA_AI_AGENT_PROMPT.md`](SONIA_AI_AGENT_PROMPT.md) | **SIL Phase:** Layer 3 mobile/web UI consuming local `gateway/server.py` in replay mode, interactive SHAP attribution bar charts, in-app clinical PDF viewer.<br/>**Post-Hardware:** Live gateway BLE event stream integration, participant informed consent forms (`docs/cohort_forms/`), 34-activity clipboard log tracking, dataset verification, live faculty defense demo (Issue #5). |
