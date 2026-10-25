@@ -1,16 +1,36 @@
-# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v61)
+# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v62)
 
 _Optimized for day-to-day use. Full history/rationale archive moved to §7
 (Appendix) — read once, not needed for weekly tracking._
 
 > **Thesis audit snapshot (October 14, 2026; Issue #13):** Independent [mid-defense](../docs/SPARK_Mid_Defense/main.tex) and [final-defense draft](../docs/SPARK_Final_Defense/main.tex) sources preserve KEC metadata and the proposal. See [report index](../docs/THESIS_REPORTS.md) for PDFs and evidence boundaries. Current model preprocessing is 100 Hz, 200×6, 2 s; a 200 Hz logger is a separate planned acquisition path. Driver/TFLite code is stubbed, so model embedding does not establish on-device execution. October model/config results and the August test/quantization reports are separate generations; October safety threshold 0.4236 in the Colab log conflicts with 0.4065 in metadata. Laptop timing and battery estimates do not establish wearable measurements. Human fall detection remains primary; robotics is a planned, unexecuted protocol. Calendar dates remain unset.
 
-**Last updated:** October 25, 2026 (v61 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12) ·
+**Last updated:** October 25, 2026 (v62 — Thesis Attribution Rigor, Battery Hardware Grounding & Chat Archives, Issues #12, #20) •
+
+<!-- previous: (v61 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12) ·
 
 > **Resumption timing update (October 13, 2026):** Hardware procurement is now expected to start next semester, after the Dashain, Tihar, and Chhath holidays. Until then, prioritize work that does not depend on ordered parts: reconcile the canonical BOM and open sourcing questions, complete and review the data collection protocol, and prepare ethics-submission materials. Hardware assembly, logger bring-up, and volunteer data collection remain gated on parts being available and required institutional approval. The week-based dates in older plans are superseded by this dependency order; schedule calendar dates with the team next semester.
 
 > [!NOTE]
 > **Board Exam Pause Notice (August 22, 2026)**: Research, thesis proposal documentation, and data collection software infrastructure locked for board examinations. See [`docs/SPARK_POST_BOARDS_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/SPARK_POST_BOARDS_MASTER_PLAN.md) and [`docs/DATA_COLLECTION_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/DATA_COLLECTION_MASTER_PLAN.md) for full context snapshot and execution roadmaps.
+
+**v62 change log (October 25, 2026 — Thesis Attribution Rigor, Battery Hardware Grounding & Chat Archives, Issues #12, #20):**
+
+- **Empirical Attribution Grounding & Thesis Integrity Audit (PR #20 / Issue #12):**
+  - Audited and corrected potential viva/defense discrepancies in `docs/SPARK_Final_Defense/Chapters/05_results.tex`.
+  - Replaced uniform temporal concentration claims with verified window-proportional baselines (impact envelope $0.8\text{--}1.4\,\text{s}$ at $30\%$ of window vs. $31.0\%$ observed attribution).
+  - Explicitly contrasted gradient-weighted input-times-gradient attributions against full axiomatic Shapley values to prevent theoretical conflation.
+  - Aligned lead architect and teammate briefing documentation (`docs/team_briefings/AARADHYA_START_HERE.md`, `RUPESH_START_HERE.md`) with unified thesis claims.
+- **Battery Endurance Datasheet Grounding & Derivation:**
+  - Grounded dual-layer wearable power model directly in official Espressif (ESP32-S3 Series Datasheet v1.9, Table 36/38) and TDK InvenSense (MPU-6050 Datasheet v3.4, Section 3.2) current draw specifications.
+  - Added formal datasheet citations to `docs/SPARK_Final_Defense/BackPages/references.bib`.
+  - Derived active execution current ($85.4\,\text{mA}$) and quiescent standby current ($3.9\,\text{mA}$) for a $3.7\,\text{V}$ $500\,\text{mAh}$ ($1.85\,\text{Wh}$) LiPo cell, proving $12.2\,\text{h}$ standby and $5.8\,\text{h}$ continuous-active operational bounds under $0.80$ discharge efficiency.
+  - Recompiled LaTeX thesis (`docs/SPARK_Final_Defense/main.pdf`, 48 pages) with zero errors.
+- **Ecosystem Chat Archiving & Debug History Logging:**
+  - Established dedicated `dev_logs/chats/` archive directory documenting daily engineering sessions, architectural decisions, and debug trajectories.
+  - Exported complete Antigravity engineering transcripts:
+    1. [`2026-10-25_SPARK-CLINICAL-REPORTING-AND-SHAP-EXPANSION_CONVERSATION.md`](chats/2026-10-25_SPARK-CLINICAL-REPORTING-AND-SHAP-EXPANSION_CONVERSATION.md) (Session `f11e9ac4`, 23 turns: Clinical report refactor, headless Blink PDF exporter, dynamic narrative synthesis, and GitHub workflow audit).
+    2. [`2026-10-25_SPARK-THESIS-SHAP-AND-BATTERY-RIGOR_CONVERSATION.md`](chats/2026-10-25_SPARK-THESIS-SHAP-AND-BATTERY-RIGOR_CONVERSATION.md) (Session `631303c1`, 14 turns: Thesis attribution results grounding, manufacturer datasheet citations, and battery endurance derivation).
 
 **v61 change log (October 25, 2026 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12):**
 
