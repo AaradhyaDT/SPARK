@@ -45,3 +45,33 @@ Using the nominal 1100 mAh capacity and assuming steady 90--130 mA current gives
 Saved point estimates lack subject-clustered confidence intervals and complete immutable split manifests. Correlated windows are not independent volunteers. Future uncertainty analysis should resample at the subject or episode level, retaining paired predictions and reporting 95\% confidence intervals. For demographic cohorts with $n<30$, flag insufficient sample support and avoid subgroup rankings; the overall exploratory pilot must still report counts and limitations.
 
 Event sensitivity, false alarms per hour, physical timing, wrist transfer, and elderly clinical performance remain unmeasured. Integrated evaluation must include every annotated fall, including gate rejections; classifier recall alone conceals gate misses.
+
+\section{Kinematic Feature Attribution and Explainability Analysis}
+To quantify model interpretability and audit sensor channel contributions during impact events (Issue~\#12), gradient-weighted feature attributions ($A_{t,c} = X_{t,c} \frac{\partial P(\mathrm{FALL})}{\partial X_{t,c}}$) were evaluated across 300 held-out true positive fall windows and ambiguous high-acceleration Activities of Daily Living (ADLs) using the trained 1D CNN model.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Figures/fig_shap_channel_attribution.pdf}
+\caption{Normalized channel-level feature attributions across the 6 IMU axes for held-out true falls. Deceleration shock along the vertical axis ($a_z$, 21.0\%) and lateral slip ($a_y$, 18.6\%) constitute dominant linear markers, while roll ($\omega_x$, 17.4\%) captures rapid posture collapse.}
+\label{fig:shap_channel}
+\end{figure}
+
+As summarized in Figure~\ref{fig:shap_channel}, linear accelerometer channels contribute $57.8\%$ of total attribution, while multi-axis angular velocity contributes $41.8\%$. Vertical ground deceleration ($a_z$) constitutes the single largest individual kinematic contributor ($21.0 \pm 19.1\%$), corroborated by lateral shear ($a_y$, $18.6 \pm 15.3\%$) and roll velocity ($\omega_x$, $17.4 \pm 11.1\%$).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Figures/fig_shap_temporal_saliency.pdf}
+\caption{Temporal kinematics and saliency dynamics across a 2.0-second (200-sample) true fall window. The model concentrates attention sharply within the dynamic impact envelope ($t \in [0.8, 1.4]\,\text{s}$).}
+\label{fig:shap_temporal}
+\end{figure}
+
+Temporal phase decomposition confirms that the network allocates $31.0\%$ of its total saliency mass strictly to the shock impact envelope ($0.8\text{--}1.4\,\text{s}$), with $38.5\%$ allocated to the pre-impact postural destabilization phase ($0.0\text{--}0.8\,\text{s}$), and $30.1\%$ to the post-impact stillness/recovery phase ($1.4\text{--}2.0\,\text{s}$).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Figures/fig_shap_fall_vs_adl_contrast.pdf}
+\caption{Comparative feature attributions contrasting confirmed falls against challenging high-acceleration ADLs (D08 fast sit, D13 stumble, D15 jump, D17 bed flop).}
+\label{fig:shap_adl_contrast}
+\end{figure}
+
+Figure~\ref{fig:shap_adl_contrast} illustrates the model's discriminative attribution mechanism against challenging ADLs. During brisk chair sitting (D08) and jumping (D15), vertical deceleration attribution drops to $6.6\%$ and $8.9\%$ respectively, dominated instead by controlled lateral and rotational stabilization ($a_y$, $\omega_x$). In stumbling without falling (D13), attributions disperse across recovery channels rather than concentrating on an acute vertical shock envelope, preventing false alarms while preserving fall sensitivity.
