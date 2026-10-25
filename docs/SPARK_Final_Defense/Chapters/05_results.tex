@@ -46,45 +46,34 @@ t = \frac{C_{\mathrm{eff}}}{I_{\mathrm{avg}}} = \frac{\eta_{\mathrm{usable}} \cd
 \end{equation}
 where $C_{\mathrm{nom}} = 1100\,\mathrm{mAh}$ denotes nominal cell capacity, $\eta_{\mathrm{usable}} \in [0.85, 0.95]$ represents usable discharge headroom before Low-Dropout (LDO) regulator dropout ($V_{\mathrm{cutoff}} \approx 3.3\,\mathrm{V}$), and $I_{\mathrm{avg}}$ is the average composite current.
 
-Component current values are catalogued from official manufacturer datasheets in Table~\ref{tab:power_budget}.
+Component current values extracted from official manufacturer datasheets are compiled in Table~\ref{tab:power_budget}.
 
 \begin{table}[htbp]
 \centering
 \caption{Subsystem electrical current specifications from manufacturer datasheets.}
 \label{tab:power_budget}
 \small
-\begin{tabular}{llrl}
-\hline
+\begin{tabular}{@{}llrl@{}}
+\toprule
 \textbf{Subsystem} & \textbf{Operating Mode / Condition} & \textbf{Current ($I$)} & \textbf{Reference} \\
-\hline
-ESP32-S3 & Modem-sleep, 240\,MHz dual-core active & 49.6--64.1\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
-ESP32-S3 & Modem-sleep, 240\,MHz SIMD (128-bit) vector load & 66.7--81.1\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
-ESP32-S3 & Modem-sleep, 160\,MHz single/dual core active & 28.4--47.3\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+\midrule
+ESP32-S3 & Modem-sleep, 240\,MHz dual-core 32-bit active & 66.2--81.3\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 240\,MHz dual-core 128-bit SIMD & 91.7--107.9\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 160\,MHz single/dual-core 32-bit & 39.9--64.1\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
+ESP32-S3 & Modem-sleep, 80\,MHz single/dual-core 32-bit & 28.4--47.3\,mA & \cite{espressif2024esp32s3}, Tab.~5-9 \\
 ESP32-S3 & Light-sleep ($V_{\mathrm{DD\_SPI}}$ \& RF gated) & 0.24\,mA & \cite{espressif2024esp32s3}, Tab.~5-10 \\
 ESP32-S3 & Bluetooth LE RX active & 93.0\,mA & \cite{espressif2024esp32s3}, Tab.~5-8 \\
 ESP32-S3 & Bluetooth LE TX active @ 0\,dBm (100\% duty) & 176.0\,mA & \cite{espressif2024esp32s3}, Tab.~5-8 \\
 MPU-6050 & Gyroscope + Accelerometer normal operating & 3.8\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
 MPU-6050 & Accelerometer-only low power & 0.5\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
 MPU-6050 & Full-chip idle / sleep & 0.005\,mA & \cite{invensense2013mpu6050}, \S6.3 \\
-Board Overhead & DevKit USB-UART bridge (CP2102) + LED & 10.0--15.0\,mA & Typical DevKit baseline \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
-The widely cited estimate of $90\text{--}130\,\mathrm{mA}$ is derived from an \textbf{unoptimized development board baseline} operating without Dynamic Frequency Scaling (DFS) or modem sleep:
-\begin{align}
-I_{\mathrm{unoptimized}} &= I_{\mathrm{MCU,240MHz}} (50\text{--}65\,\mathrm{mA}) + I_{\mathrm{MPU}} (3.8\,\mathrm{mA}) + I_{\mathrm{BLE,avg}} (15\text{--}35\,\mathrm{mA}) + I_{\mathrm{board}} (10\text{--}15\,\mathrm{mA}) \nonumber \\
-&\approx 80\text{--}118\,\mathrm{mA}
-\end{align}
-Peak transmission bursts and neural inference passes elevate transient demand to $\approx 130\,\mathrm{mA}$. Under nominal cell capacity ($C_{\mathrm{nom}} = 1100\,\mathrm{mAh}$, $\eta_{\mathrm{usable}} = 1.0$), this yields an idealized operating window of $t = 1100 / [90, 130] \approx 8.5\text{--}12.2\,\mathrm{hours}$ ($7.2\text{--}10.4\,\mathrm{hours}$ at $\eta_{\mathrm{usable}} = 0.85$).
+The planning range of $90\text{--}130\,\mathrm{mA}$ represents an illustrative active-radio operating assumption for an unoptimized development board. Under this regime, the ESP32-S3 executes continuously at 240\,MHz without Dynamic Frequency Scaling (DFS) or modem sleep ($66.2\text{--}81.3\,\mathrm{mA}$ base, with intermittent SPI flash access contributing $\sim 10\,\mathrm{mA}$ per Table~5-9 Note~3), the MPU-6050 continuously samples all 6 axes ($3.8\,\mathrm{mA}$), and periodic BLE advertising/polling bursts add an unmeasured average RF draw. Onboard development board parasitics (e.g., linear regulator quiescent current $I_q \approx 5\text{--}11\,\mathrm{mA}$ and power indicator LEDs $\approx 1\text{--}3\,\mathrm{mA}$) further increase load. Peak demand during SIMD neural inference passes ($91.7\text{--}107.9\,\mathrm{mA}$) and BLE packet transmissions ($176\,\mathrm{mA}$) elevates transient consumption toward the $130\,\mathrm{mA}$ ceiling.
 
-Conversely, an \textbf{optimized production firmware baseline} (160\,MHz CPU, BLE slave connection latency, customized PCB omitting the USB bridge, and low-quiescent LDO $I_q < 50\,\mu\mathrm{A}$) projects:
-\begin{equation}
-I_{\mathrm{optimized}} \approx 30\,\mathrm{mA} (\mathrm{MCU}) + 3.8\,\mathrm{mA} (\mathrm{MPU}) + 3.0\,\mathrm{mA} (\mathrm{BLE}) + 0.1\,\mathrm{mA} (\mathrm{LDO}) \approx 37\,\mathrm{mA}
-\end{equation}
-which theoretically extends endurance to $t \approx 1100 / 37 \approx 29.7\,\mathrm{hours}$ ($25.2\,\mathrm{hours}$ at $\eta_{\mathrm{usable}} = 0.85$).
-
-Both projections are analytical estimates derived from component datasheets. Actual operating battery life remains unmeasured until empirical current logging across all operational regimes is conducted on final assembled hardware. Older narratives citing 16--28 hours mixed unoptimized active draw with deep-sleep assumptions and are superseded by this derivation.
+Under this $90\text{--}130\,\mathrm{mA}$ assumption, nominal cell capacity ($C_{\mathrm{nom}} = 1100\,\mathrm{mAh}$) yields an idealized $t = C/I$ window of $8.5\text{--}12.2\,\mathrm{hours}$, or $7.2\text{--}10.4\,\mathrm{hours}$ accounting for a realistic usable capacity factor ($\eta_{\mathrm{usable}} = 0.85$). While firmware optimizations (e.g., scaling CPU clock to 80--160\,MHz, duty-cycled BLE connection intervals, and low-quiescent custom power regulators) have the theoretical potential to reduce average current, actual battery endurance cannot be asserted from datasheet arithmetic alone. Empirical multi-regime current logging on physical hardware remains required to validate battery lifetime. Older narratives citing 8--11\,h active and 16--28\,h gated mixed active draw with hypothetical deep-sleep assumptions and are superseded by this derivation.
 
 \section{Statistical and domain limitations}
 Saved point estimates lack subject-clustered confidence intervals and complete immutable split manifests. Correlated windows are not independent volunteers. Future uncertainty analysis should resample at the subject or episode level, retaining paired predictions and reporting 95\% confidence intervals. For demographic cohorts with $n<30$, flag insufficient sample support and avoid subgroup rankings; the overall exploratory pilot must still report counts and limitations.

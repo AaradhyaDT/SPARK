@@ -159,48 +159,6 @@ def compute_gradient_saliency_batch(
     return saliency
 
 
-def impact_aligned_attribution(
-    windows: np.ndarray,
-    saliency: np.ndarray,
-    half_width: int = 30,
-    accel_slice: slice = slice(0, 3),
-) -> dict[str, float]:
-    """
-    Measure attribution concentration around each window's own impact peak.
-
-    The impact sample is argmax of accelerometer magnitude per window. For each
-    window, the share of absolute attribution mass falling within +/- half_width
-    samples of that peak is compared against the share expected if attribution
-    were uniform over time (the clipped band length / window length). Edge
-    windows are clipped rather than padded, and the uniform baseline uses the
-    same clipped length, so no padding assumption is introduced.
-
-    Returns mean observed share, mean uniform share, their ratio, and the
-    fraction of windows whose observed share exceeds the uniform share.
-    """
-    n, t_len, _ = windows.shape
-    mag = np.linalg.norm(windows[:, :, accel_slice], axis=2)
-    peaks = np.argmax(mag, axis=1)
-    sal_t = np.sum(np.abs(saliency), axis=2)  # (N, T)
-    totals = np.sum(sal_t, axis=1) + 1e-12
-
-    observed = np.empty(n)
-    expected = np.empty(n)
-    for i, p in enumerate(peaks):
-        lo, hi = max(0, p - half_width), min(t_len, p + half_width + 1)
-        observed[i] = np.sum(sal_t[i, lo:hi]) / totals[i]
-        expected[i] = (hi - lo) / t_len
-
-    return {
-        "half_width_samples": int(half_width),
-        "observed_share_pct": float(np.mean(observed) * 100),
-        "uniform_share_pct": float(np.mean(expected) * 100),
-        "concentration_ratio": float(np.mean(observed) / np.mean(expected)),
-        "windows_above_uniform_pct": float(np.mean(observed > expected) * 100),
-        "peak_sample_median": float(np.median(peaks)),
-    }
-
-
 def evaluate_held_out_shap(
     data_dir: str | Path,
     model_path: str | Path,
