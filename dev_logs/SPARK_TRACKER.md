@@ -1,18 +1,55 @@
-# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v62)
+# SPARK — Signal Pattern Analysis & Real-time Kinetics — Project Tracker (v64)
 
 _Optimized for day-to-day use. Full history/rationale archive moved to §7
 (Appendix) — read once, not needed for weekly tracking._
 
 > **Thesis audit snapshot (October 14, 2026; Issue #13):** Independent [mid-defense](../docs/SPARK_Mid_Defense/main.tex) and [final-defense draft](../docs/SPARK_Final_Defense/main.tex) sources preserve KEC metadata and the proposal. See [report index](../docs/THESIS_REPORTS.md) for PDFs and evidence boundaries. Current model preprocessing is 100 Hz, 200×6, 2 s; a 200 Hz logger is a separate planned acquisition path. Driver/TFLite code is stubbed, so model embedding does not establish on-device execution. October model/config results and the August test/quantization reports are separate generations; October safety threshold 0.4236 in the Colab log conflicts with 0.4065 in metadata. Laptop timing and battery estimates do not establish wearable measurements. Human fall detection remains primary; robotics is a planned, unexecuted protocol. Calendar dates remain unset.
 
-**Last updated:** October 25, 2026 (v62 — Thesis Attribution Rigor, Battery Hardware Grounding & Chat Archives, Issues #12, #20) •
+**Last updated:** October 30, 2026 (v64 — Day-1 Ready Master BOM, Full 3-Node Power Parity & NPR 17,677 Locked Total) •
 
-<!-- previous: (v61 — Held-Out SHAP Feature Attribution Maps, Publication Defense Figures & Thesis Integration, Issue #12) ·
+<!-- previous: (v63 — Procurement BOM Reconciliation, Vendor Consolidation & Sensor Redundancy Lock) ·
 
 > **Resumption timing update (October 13, 2026):** Hardware procurement is now expected to start next semester, after the Dashain, Tihar, and Chhath holidays. Until then, prioritize work that does not depend on ordered parts: reconcile the canonical BOM and open sourcing questions, complete and review the data collection protocol, and prepare ethics-submission materials. Hardware assembly, logger bring-up, and volunteer data collection remain gated on parts being available and required institutional approval. The week-based dates in older plans are superseded by this dependency order; schedule calendar dates with the team next semester.
 
 > [!NOTE]
 > **Board Exam Pause Notice (August 22, 2026)**: Research, thesis proposal documentation, and data collection software infrastructure locked for board examinations. See [`docs/SPARK_POST_BOARDS_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/SPARK_POST_BOARDS_MASTER_PLAN.md) and [`docs/DATA_COLLECTION_MASTER_PLAN.md`](file:///D:/Aaradhya-Dev-Tamrakar/SPARK/docs/DATA_COLLECTION_MASTER_PLAN.md) for full context snapshot and execution roadmaps.
+
+**v64 change log (October 30, 2026 — Day-1 Ready Master BOM, Full 3-Node Power Parity & NPR 17,677 Locked Total):**
+
+- **Day-1 Ready Dual-Node + Spare Procurement Scope (`docs/SPARK_Component_Order_Form.xlsx`):**
+  - Finalized full BOM covering **two complete active wearable nodes (1 Wrist + 1 Waist Reference) + one full spare chain**, with all issued quantities/costs set to `0`.
+  - **Row 1 (ESP32-S3):** *ESP32-S3 N16R8 development board, 44-pin, 16 MB flash, 8 MB PSRAM, including 50 cm USB-C data+power cable* from *Daraz — Buy More Save More Store* (`3 × NPR 2,210 = NPR 6,630`).
+  - **Row 2 (IMU):** 3 × MPU6050 six-axis IMU module (`3 × NPR 350 = NPR 1,050`, Himalayan Solutions; configured to $\pm 16g$ & $\pm 2000^\circ/	ext{s}$).
+  - **Rows 3–4, 8, 12 (Full 3-Set Power Parity):**
+    - Row 3: 2 × 3.7 V, 1100 mAh LiPo battery pouch cells (`2 × NPR 550 = NPR 1,100`, Giga Nepal).
+    - Row 4: 3 × TP4056 Type-C charging module with DW01A protection (`3 × NPR 100 = NPR 300`, Himalayan Solutions).
+    - Row 8: 3 × DC–DC 5 V boost converter, 3.7 V LiPo input, $\ge 800	ext{ mA}$ output: *Mini Fixed-5.0 V Sync Step-Up (FP6291/CKCS BS01, 11×10.5 mm) [1st choice]* or *MT3608 2 A [fallback]* (`3 × NPR 150 = NPR 450`, Himalayan Solutions).
+    - Row 12: 3 × Micro slide switch, SPDT, $\ge 0.5	ext{ A}$ (`3 × NPR 25 = NPR 75`, Himalayan Solutions).
+  - **Rows 5–7, 11 (Enclosure, Fasteners & Garment):**
+    - Row 5: 2 × Velcro wrist strap (`2 × NPR 500 = NPR 1,000`, RR-papers).
+    - Row 6: 2 × Compression arm sleeve (`2 × NPR 136 = NPR 272`, Daraz — BLUE BELL Let's Slim).
+    - Row 7: 1 roll × TPU 95A filament, 1 kg roll (`NPR 4,000`, KEC Makerspace / vendor TBD; lean option: ~90 g @ NPR 4/g = NPR 360).
+    - Row 11: 20 sets × M2.5 machine screws (6 mm, 8 mm, 12 mm lengths) with matching hex nuts (`NPR 300`, Daraz Nepal).
+  - **Rows 9–10, 13–15 (Bring-Up, Day-1 Lot & Logistics):**
+    - Row 9: 2 kits × MB-102 830-pt breadboards + jumper wire kit with M-M, M-F, and F-F DuPont ribbons for 44-pin ESP32-S3 span (`NPR 650`, Himalayan Solutions).
+    - Row 10: 1 kit × Resistor/capacitor assortment with 4.7 kΩ I2C pull-ups, 100 nF/10 µF decoupling caps, 5 mm LEDs, and 6×6 mm tactile buttons (`NPR 600`, Himalayan Solutions).
+    - Row 13: 1 lot × 30 AWG flexible silicone ribbon wire for signal harnesses (`NPR 150`, Himalayan Solutions / Daraz).
+    - Row 14: 1 lot × Assembly & Day-1 lot: 6× 2-pin JST pigtails, 2.54 mm male/female pin headers, 2 m 24 AWG wire, heat-shrink, Kapton/foam tape, 0.8 mm solder/flux, 2× perfboards, and 1× nylon waist belt with buckle for SisFall waist-vs-wrist calibration (`NPR 700`, Himalayan Solutions).
+    - Row 15: 1 lot × Delivery charges for Daraz Metro orders + local courier (`NPR 400`).
+  - **Locked Grand Total:** **NPR 17,677** (or **NPR 14,037** with KEC Makerspace per-gram TPU printing). All 15 lines 100% costed.
+  - **Chat Archive Integrated:** External shared Gemini sessions (3 continuous transcripts) archived to `docs/chat_history/2026-10-30_HELP-ME-FINALIZE-THE-BOM_CONVERSATION.md` via `/chat-archiver` skill.
+
+**v63 change log (October 30, 2026 — Procurement BOM Reconciliation, Vendor Consolidation & Sensor Redundancy Lock):**
+
+- **Canonical BOM Synchronized (docs/SPARK_Component_Order_Form.xlsx):**
+  - **Sensor Redundancy Buffer (Action #18):** Expanded MPU6050 from 1 unit (NPR 350) to 3 units (3 × NPR 350 = NPR 1,050) to eliminate single-point-of-failure risk during crash-mat drop impacts and 34-activity volunteer collection.
+  - **Vendor Consolidation:** Re-routed TP4056 charge/protection circuit (NPR 100, Type-C with DW01A protection IC) and breadboard + jumper wire kits (2 sets @ NPR 325 = NPR 650) from SLT Pvt. Ltd to Himalayan Solutions, unifying ESP32-S3, IMU, charger, breadboard, and passives into a single Kathmandu supplier order.
+  - **Fastener & Enclosure DFM Alignment (Action #39):** Updated screw spec to M2.5 metric machine screws (×8mm) + hex nuts (20 sets @ NPR 15 = NPR 300) targeted for captive 3D-printed hex pockets in the TPU 95A shell, avoiding overseas lead-times on imported brass heat-set inserts.
+  - **Missing Bring-Up Hardware Added:**
+    1. 2 × Micro SPDT slide switches (Himalayan Solutions @ NPR 25 = NPR 50) for hardware power cutoff.
+    2. 1 lot × 30 AWG ultra-flexible silicone ribbon wire (Himalayan / Daraz @ NPR 150) for bridging I2C across the 24mm moving wrist hinge.
+  - **Filament Sourcing Confirmed:** Retained 1kg TPU roll purchase (NPR 4,000, Action #37) ensuring full team ownership of material for iterative slicing and fabrication at KEC Makerspace.
+  - **Total Order Form & BOM:** Reconciled from NPR 13,877 → **NPR 14,787** (+NPR 910 net for 2 spare IMUs, power switches, silicone wire, and consolidated charger).
 
 **v62 change log (October 25, 2026 — Thesis Attribution Rigor, Battery Hardware Grounding & Chat Archives, Issues #12, #20):**
 
@@ -764,30 +801,30 @@ Landed via three raw commits (see above note) — future edits must route throug
 
 **Bill of Materials (as of v31, Aug 10, 2026):**
 
-1. **Microcontroller:** 3 × ESP32-S3 (Himalayan, NPR 1,800/unit confirmed v32 — reverted from RoboNepal, Action #14 reopened)
-   - Quantization testbed: 1 unit (departmental-ordered, v31)
-   - Deployment wearable: 1 unit (departmental ask)
-   - Spare: 1 unit (departmental-ordered, v31 — Action #16 resolved)
-   - Firmware: Arduino/ESP-IDF, same baseline as FallGuard legacy project
+1. **Microcontroller:** 3 × ESP32-S3 N16R8 development board, 44-pin, 16 MB flash, 8 MB PSRAM, including 50 cm USB-C cable (Daraz — Buy More Save More Store, 3 × NPR 2,210 = NPR 6,630, updated v64)
+   - Active wearable nodes: 2 units
+   - Spare buffer: 1 unit
+   - Includes 3 × 50 cm USB-C cables (separate USB-C cable row removed v64)
+   - Firmware: ESP-IDF
 
-2. **Inertial Measurement Unit:** 1 × MPU6050 (departmental-ordered, v31; **sourced v33 — Himalayan Solutions, NPR 350, GY-251 module, live listing**)
-   - 200 Hz, 3-axis accelerometer
-   - Driver: reuse/rewrite TBD with Rupesh (Action #24)
+2. **Inertial Measurement Unit:** 3 × MPU6050 six-axis IMU module (Himalayan Solutions, 3 × NPR 350 = NPR 1,050)
+   - 200 Hz, 6-axis accelerometer + gyroscope
+   - Covers 2 active wearable nodes + 1 spare
 
-3. **Power:**
-   - Lithium battery: 1100 mAh Li-ion/LiPo (sourced v34 — Giga Nepal, NPR 550; sourcing resolved. Endurance figure fixed v36 — Action #21 resolved, see §2.7)
-   - USB-C charging connector (included on ESP32-S3 devboard)
-   - USB-C cable (departmental-ordered, v31; **priced v33 — Daraz, qty 3 @ NPR 267 = NPR 801, Action #19 resolved**)
+3. **Power & Regulation (2 complete nodes):**
+   - Lithium battery: 2 × single-cell 3.7 V, 1100 mAh LiPo battery; dimensions and connector to be confirmed (Giga Nepal, 2 × NPR 550 = NPR 1,100)
+   - Charging & protection: 2 × TP4056 Type-C charging module with battery protection (Himalayan Solutions, 2 × NPR 100 = NPR 200)
+   - Voltage regulation: 2 × DC–DC boost converter, single-cell LiPo input, regulated 5 V output, ≥500 mA continuous output; module to be confirmed (Himalayan Solutions / vendor TBD, price TBC)
+   - Power switch: 2 × Micro slide switch, SPDT, power cutoff; suitable current rating to be confirmed (Himalayan Solutions, 2 × NPR 25 = NPR 50)
 
-4. **Enclosure:**
-   - Form factor: Wrist-worn (locked v28, Action #8)
-   - Electronics placement: Top-of-wrist / dorsal side (locked v29, Action #34) — consistent MPU6050 orientation, clear of wrist flexion crease
-   - Closure mechanism: Hook-and-loop Velcro (locked v30, Action #34) — elderly-dexterity rationale, one-handed fastening. **Resolved v36:** confirmed as a distinct, separately-purchased component — the enclosure has its own built-in Velcro closure tab (no separate purchase, part of the 3D-printed shell), and the BOM's "Velcro wrist strap" line (RR-papers, NPR 500×2) is a second, physically separate strap used for additional wearable retention/security, not a duplicate of the closure tab. §2.6 line description updated to reflect this distinction.
-   - Base layer: Compression arm sleeve, thumb-hole (locked v30, Action #34, departmental-ordered v31) — worn under enclosure, doubles as skin protection under Velcro
-   - Material: 3D-printed TPU (KEC Makerspace, switched v34 — real KEC inventory only stocks TPU, not PLA; PLA lock v13 was never verified against actual makerspace stock)
-   - Footprint: Himalayan board (vendor reverted v32) is WROOM-1-CAM variant (has unused camera FPC); unconfirmed vs. §7 assumption (Action #17)
+4. **Enclosure & Garment Interface (2 complete nodes):**
+   - Form factor: Wrist-worn (locked v28, Action #8), top-of-wrist / dorsal side (locked v29, Action #34)
+   - Retention strap: 2 × Velcro wrist strap (RR-papers, 2 × NPR 500 = NPR 1,000)
+   - Base layer: 2 × Compression arm sleeve, thumb-hole base layer (Daraz — BLUE BELL Let's Slim, 2 × NPR 136 = NPR 272)
+   - Material: 1 roll × TPU 95A filament, 1 kg roll, for enclosure fabrication (KEC Makerspace / vendor TBD, NPR 4,000)
+   - Fasteners: 20 sets × M2.5 × 8 mm machine screws with matching hex nuts (Daraz Nepal, 20 × NPR 15 = NPR 300)
 
-**Total BOM (§2.6):** **NPR 13,577** (v39 — enclosure sourcing switched to 1kg TPU roll purchase, NPR 90→4,000, +NPR 3,910, over v38's NPR 9,667. Funding: all lines departmental-ordered, no self-funded/lab-borrowed split.)
+**Total BOM (§2.6):** **NPR 17,677** (all 15 lines in `docs/SPARK_Component_Order_Form.xlsx` fully costed for Day-1 readiness with full 3-node power parity and waist calibration rig. Lean per-gram KEC TPU option: **NPR 14,037**).
 
 ### §2.3 — Novelty Claims (5 total)
 
@@ -876,37 +913,40 @@ Landed via three raw commits (see above note) — future edits must route throug
 
 **Component list (ordered list format, was 2-column table in v25):**
 
-1. **Wearable node:**
-   - 3 × ESP32-S3, Himalayan: 3 × NPR 1,800 = NPR 5,400 (Action #14 vendor reverted v32; Action #16 spare added v31; all departmental-ordered)
-   - 1 × MPU6050, Himalayan: NPR 350 (sourced v33, GY-251 module, live listing — Action #18's MPU6050 half resolved)
-   - 1 × Lithium battery, 1100 mAh Li-ion/LiPo: NPR 550 (sourced v34, Giga Nepal — sourcing resolved; Action #21's R-05 draw-figure issue fixed v36, see §2.7)
-   - 1 × USB-C cable, departmental-ordered: qty 3 × NPR 267 = NPR 801 (sourced v33, Daraz — Action #19 resolved)
-   - 1 × Charge/protection circuit (TP4056-class), required — sourced cell confirmed unprotected (Action #32 resolved v40): NPR 90 (baseline, legacy pricing)
-   - 1 × Compression arm sleeve, base layer, thumb-hole (locked v30, Action #34, departmental-ordered v31): NPR 136 (Daraz, "BLUE BELL Let's Slim," -32% off Rs.200, +Rs.100 delivery not included in line price)
-   - 1 × Velcro wrist strap, RR-papers, qty 2: 2 × NPR 500 = NPR 1,000 (re-added v33, **§2.2 conflict resolved v36** — confirmed distinct from the enclosure's own built-in Velcro closure tab; this strap provides additional wearable retention/security, separate purchase)
-   - Enclosure, wrist-worn (locked v28), Velcro closure (locked v30), 3D-printed TPU (switched v34): material sourced as **1kg roll purchase, NPR 4,000** (v39, Action #37 — supersedes v38's per-part NPR 90 estimate; sourcing model changed from KEC print-service to owning the filament, same NPR 4/g rate; only ~22g needed per Action #36's geometric estimate, rest is spare)
-   - Fasteners (v42, Action #39; spec relaxed + vendor sourced v45, see §1): M2.5 self-tapping, **×8mm** (unified from a ×6mm/×10mm split — shorter length is lower-risk against an unverified wall thickness), generic metal (stainless/button-head downgraded from requirement to preference — precautionary reasoning for a skin-contact scenario never confirmed to exist), sourced **Daraz Nepal** (`daraz.com.np`, live listing, confirmed local delivery — unlike cross-border resellers like Ubuy, set aside for that reason). Qty 20 — NPR 15/unit placeholder × 20 = **NPR 300** (real kit price not yet confirmed). Countersunk rejected — needs exact-matched conical seat or risks a proud sharp edge / cracked boss. Length-vs-wall-thickness still not verified against a real model (blocked on Action #17) — this is a hard floor independent of vendor choice.
+1. **Wearable nodes & Power Chain (2 active nodes + 1 spare chain; all issued quantities/costs = 0):**
+   - **Row 1:** 3 × ESP32-S3 N16R8 development board, 44-pin, 16 MB flash, 8 MB PSRAM, incl. 50 cm USB-C data+power cable — *Daraz — Buy More Save More Store*, qty `3` × NPR 2,210 = **NPR 6,630**
+   - **Row 2:** 3 × MPU6050 six-axis IMU module (GY-251, $\pm 16g / \pm 2000^\circ/	ext{s}$ @ 200 Hz) — *Himalayan Solutions*, qty `3` × NPR 350 = **NPR 1,050**
+   - **Row 3:** 2 × Single-cell 3.7 V, 1100 mAh LiPo battery pouch cell — *Giga Nepal*, qty `2` × NPR 550 = **NPR 1,100**
+   - **Row 4:** 3 × TP4056 Type-C charging module with DW01A/FS8205A battery protection — *Himalayan Solutions*, qty `3` × NPR 100 = **NPR 300**
+   - **Row 5:** 2 × Velcro wrist strap — *RR-papers*, qty `2` × NPR 500 = **NPR 1,000**
+   - **Row 6:** 2 × Compression arm sleeve, thumb-hole base layer — *Daraz — BLUE BELL Let's Slim*, qty `2` × NPR 136 = **NPR 272**
+   - **Row 7:** 1 roll × TPU 95A filament, 1 kg roll — *KEC Makerspace / vendor TBD*, qty `1` × NPR 4,000 = **NPR 4,000** (or **NPR 360** if KEC Makerspace bills per-gram @ NPR 4/g for ~90 g)
+   - **Row 8:** 3 × DC–DC 5 V boost converter, 3.7 V LiPo input, $\ge 800	ext{ mA}$ output: Mini Fixed-5.0 V Sync Step-Up (FP6291/CKCS BS01) [1st choice] or MT3608 2 A [fallback] — *Himalayan Solutions*, qty `3` × NPR 150 = **NPR 450**
 
-2. **Gateway (laptop):**
-   - Acer Swift Go 16 (already owned): NPR 0
+2. **Bring-Up, Fasteners, Assembly & Delivery (Rows 9–15):**
+   - **Row 9:** 2 kits × Breadboard (MB-102 830-pt) + jumper wire kit (must include M-M, M-F, and F-F DuPont ribbons for 44-pin ESP32-S3 span) — *Himalayan Solutions*, qty `2` × NPR 325 = **NPR 650**
+   - **Row 10:** 1 kit × Resistor/capacitor assortment (incl. 4.7 kΩ pull-ups, 100 nF/10 µF decoupling caps, 5 mm LEDs, tactile buttons) — *Himalayan Solutions*, qty `1` × NPR 600 = **NPR 600**
+   - **Row 11:** 20 sets × M2.5 machine screws (6 mm, 8 mm, 12 mm lengths) with matching hex nuts — *Daraz Nepal*, qty `20` × NPR 15 = **NPR 300**
+   - **Row 12:** 3 × Micro slide switch, SPDT, power cutoff, $\ge 0.5	ext{ A}$ — *Himalayan Solutions*, qty `3` × NPR 25 = **NPR 75**
+   - **Row 13:** 1 lot × 30 AWG flexible silicone ribbon wire for signal harnesses — *Himalayan Solutions / Daraz*, qty `1` × NPR 150 = **NPR 150**
+   - **Row 14:** 1 lot × Assembly & Day-1 lot: 6× 2-pin JST pigtails, 2.54 mm male/female pin headers, 2 m 24 AWG wire, heat-shrink, Kapton/foam tape, 0.8 mm solder/flux, 2× perfboards, 1× nylon waist belt w/ buckle — *Himalayan Solutions*, qty `1` × NPR 700 = **NPR 700**
+   - **Row 15:** 1 lot × Delivery charges (3× Daraz Kathmandu Metro orders + local supplier courier) — *Applicable suppliers*, qty `1` × NPR 400 = **NPR 400**
 
-3. **Phone display client (NEW v35):**
-   - User's own phone (already owned, no purchase): NPR 0
-   - Display-only, no BLE hardware needed — reads native phone BLE/network stack
+3. **Gateway & Display Client (no procurement cost):**
+   - Gateway (laptop): Acer Swift Go 16 (already owned): **NPR 0**
+   - Phone display client (Layer 3): User's own smartphone (already owned): **NPR 0**
 
-4. **Miscellaneous:**
-   - ~~BLE dongle~~ — **dropped v35.** Was locked v28 on flawed reasoning ("phone-app-involved rules out built-in-BLE-only") that didn't actually follow; every device in the real data path (ESP32-S3, laptop, phone) has native BLE, and the phone doesn't even need BLE since it's a display-only client reading from the laptop over local network, not a direct wearable BLE client. No dongle needed anywhere.
-   - Development/test boards: Covered by above
+4. **Submission Notes & Contingencies:**
+   - Row 1 includes three 50 cm USB-C data+power cables, so the separate cable purchase is removed.
+   - Qty 3 across ESP32-S3, MPU6050, TP4056, 5V boost converter, and SPDT switch ensures 2 active nodes (1 Wrist + 1 Waist reference) + 1 complete spare chain.
+   - Row 9 (M-F/F-F jumpers) + Row 14 (2.54 mm female headers, solder/flux, foam/Kapton tape, waist belt) eliminate Day-1 bring-up & assembly blockers.
+   - Row 7 covers a full 1 kg TPU 95A roll (NPR 4,000); if KEC Makerspace bills per-gram (~90 g @ NPR 4/g = NPR 360), total drops to **NPR 14,037**.
 
-5. **Bring-up/Assembly (NEW v28, Action #33):**
-   - Breadboard + jumper wires, 2 sets: NPR 325/set × 2 = NPR 650 (baseline, legacy pricing)
-   - Resistor/capacitor assortment, 1 lot: NPR 600 (baseline, legacy pricing)
+**Total project cost:** **NPR 17,677** (or **NPR 14,037** with per-gram KEC Makerspace TPU billing).
 
-**Total project cost:** **NPR 13,877** (v42 — fasteners added, NPR 0→300, over v39's NPR 13,577).
+**Funding breakdown:**
 
-**Funding breakdown (v31 — all self-funded/lab-borrowed status dropped):**
-
-- Departmental ask: **NPR 13,577** (full BOM total — all lines now departmental-ordered, no self-funded or lab-borrowed split)
+- Departmental ask: **NPR 17,677** (100% departmental-ordered; NPR 0 self-funded/lab-borrowed split)
 - Self-funded by Aaradhya: **None** (v31 — previously 1 × ESP32-S3 + USB-C cable, now departmental)
 - Lab-borrowed: **None** (v31 — previously MPU6050, now departmental-ordered)
 
