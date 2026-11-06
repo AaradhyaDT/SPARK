@@ -9,6 +9,31 @@
 
 ## Preferred Product Direction — Shared Core, Placement-Specific Modules
 
+## College Major Project Feasibility and Plan in Progress
+
+**Status: Plan in progress (2026-11-06).** The shared core, wrist-to-forearm harness, waist reference node, serviceable enclosure, and belt/waistband adapters are considered feasible goals for an engineering-college prototype. This is a scope assessment, not a guarantee of completion or commercial readiness. Physical realization depends on measured parts, firmware bring-up, printing access, and team time.
+
+The session produced architecture exploration, BOM grounding, a product-presentation iteration, and a hidden-issue iteration. Their images and decisions are recorded below. Those documentation and visual tasks are complete; fabrication and experimental validation remain pending. DI-03 remains canonical.
+
+- [x] Record shared-core arm and waist concepts with separate local IMUs.
+- [x] Produce product presentation and hidden-issue visual studies.
+- [x] Record BOM inputs and open battery allocation/dimension questions.
+- [ ] Reconcile received hardware and measure components before CAD packaging.
+- [ ] Bring up two reliable, timestamped acquisition nodes; measure sampling quality and synchronization error.
+- [ ] Build a serviceable enclosure family with stable arm and belt attachments.
+- [ ] Evaluate waistband compatibility on a defined garment set; record retention, rotation, comfort, and fabric marking.
+- [ ] Measure runtime and integrated detector performance; preserve evaluation provenance and uncertainty.
+- [ ] Conduct data collection only after logger validation and required institutional approval.
+- [ ] Compare wrist and waist performance, then evaluate one bounded adaptation/translation approach using separate development and evaluation data.
+
+**Scope priorities:** The core deliverable is functioning acquisition/detection hardware and measured placement evaluation. A custom quick-release latch is a stretch feature; start with simple mechanically retained attachment prototypes. The refined appearance remains a design goal, while actual printed finish and size follow fabrication results. Garment compatibility means tested combinations, not every garment.
+
+**Research boundary:** Recording both placements does not prove that wrist and waist signals or trained detectors transfer between them. Generalizable translation is a separate research experiment. Current `firmware/main/tflite/inference.cpp` contains stub inference bodies at the time of this assessment; embedded inference and integration remain substantive work. Repository verification checks validate their stated software/documentation checks, not physical fit or safety.
+
+The intended project claim is: build two wearable nodes, measure their operation, and evaluate how sensor placement affects fall detection. A commercial sales claim or clinical validation claim requires additional evidence.
+
+### Preferred architecture
+
 Concepts 2 and 3 are the preferred direction for the next design iteration. Use one uniform electronics-core design, reproduced in each active node, with a common keyed mechanical dock. Keep the IMU local to its intended body placement: a dorsal wrist sensor pod for arm use and its own waist-mounted IMU for waist use. The arm node places the common electronics core in the forearm pod and links it to the wrist IMU with a protected flexible bridge. The waist node contains a copy of the same core beside its waist IMU. This supports paired wrist/waist collection; it does not imply the signals are interchangeable.
 
 For the waist node, develop two removable adapters that engage the same core dock: (1) a belt loop/dock for the BOM's nylon belt and (2) a beltless waistband clip for common trousers or skirts. The clip must retain the module and preserve its orientation without pins, stitching, holes, or permanent garment changes. “Universal” here means the two specified everyday waist attachment modes; compatibility across all garment materials and thicknesses is not assumed. Set fit range after representative garment checks.
