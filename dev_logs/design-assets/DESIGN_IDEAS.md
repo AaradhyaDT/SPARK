@@ -98,23 +98,27 @@ Single-piece open-back forearm enclosure, silhouette inspired by a bracer/vambra
 
 ## DI-05 — Wrist/Forearm Fit Variants and Waist IMU Reference Module
 
-- **Status:** Exploratory architecture round; no concept selected and no CAD or fit validation completed.
+- **Status:** Preferred concept direction refined for next iteration; still exploratory, not selected for CAD, and not fit validated.
 - **Date logged:** 2026-11-06
 - **Detailed concept brief:** [`ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md`](ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md)
-- **Visual concept board:** Generated during the discussion and shown in chat; not available as a repository asset.
+- **Visual concept board:** [`enclosure_shared_core_arm_waist_adapters.png`](enclosure_shared_core_arm_waist_adapters.png) — shared electronics core, local wrist/waist IMUs, arm bridge, and two waist adapter options.
 - **Baseline:** DI-03 remains the canonical engineering reference.
 
 **Concepts compared:**
 - **DI-03 baseline:** Continuous 270° TPU C-shell with dorsal wrist sensor zone and forearm electronics bay.
-- **ALT-A:** Separate adjustable wrist and forearm cuffs joined by a protected flexible wire bridge; the wrist cuff carries the IMU and the forearm cuff carries the electronics pod.
-- **ALT-B:** The same two-cuff and bridge arrangement with broader rounded sleeve-facing contact wings and replaceable comfort pads.
-- **ALT-C:** A dual-placement platform with a wrist IMU module and a separate waist module containing its own IMU. The purpose is to collect wrist- and waist-placement data and evaluate translation between them. The placements are distinct sensing configurations; interchangeability is not assumed.
+- **ALT-A (preferred arm configuration):** Adjustable dorsal wrist cuff with local MPU6050 IMU; protected flexible bridge to a forearm pod containing a copy of the common electronics core.
+- **ALT-B (arm fit variant):** Same shared-core arm architecture with broader rounded sleeve-contact wings and removable pads for fit exploration.
+- **ALT-C (preferred waist configuration):** Separate waist node containing a copy of the same core and its own local MPU6050. A common keyed dock accepts either a nylon-belt adapter or a beltless waistband clip. The intended garment modes do not imply fit across every garment.
+
+**Uniform core and product direction:** Use one electronics-core enclosure/interface design reproduced in the wrist/arm and waist nodes, with placement-specific IMUs and mechanically distinct attachments. Pairing supports wrist/waist data collection; it does not establish signal equivalence. Design intent is a coherent, rounded, serviceable product with a low-profile wrist sensor, simple arm closure, and interchangeable waist attachments. These are product-design goals, not validated usability or sales claims.
 
 **BOM grounding:** The concepts reflect the current order form's TPU 95A filament, M2.5 machine screws and hex nuts, nylon waist belt with buckle, hook-and-loop wrist straps, compression arm sleeves, ESP32-S3 development boards, MPU6050 modules, 3.7 V 1100 mAh LiPo cells, TP4056 protected charging modules, 5 V boost converters, slide switches, and flexible 30 AWG silicone signal wire. These are planned BOM quantities, not confirmation of receipt.
 
 **Open packaging inputs:** The order form lists three ESP32-S3 boards and three MPU6050 modules but two LiPo cells, while the tracker describes two active nodes plus a spare chain. Spare-node battery allocation needs reconciliation. LiPo dimensions and connector are also unconfirmed. Measure received parts before freezing enclosure dimensions or ports.
 
-**Design boundary:** This entry records form-factor exploration only. It does not supersede DI-03, alter the BOM, validate comfort, establish wrist-to-waist signal translation, or claim CAD, printing, or physical testing.
+**Waist adapter constraint:** Belt-loop/dock plus beltless waistband clip, both removable and engaging the same keyed core interface without permanent garment changes. Clip compatibility, retention, orientation, comfort, and fabric marking remain to be checked on representative garments; do not assert a universal thickness range before testing.
+
+**Design boundary:** This entry records form-factor exploration only. It does not supersede DI-03, alter the BOM, validate comfort or attachment compatibility, establish wrist-to-waist signal translation, or claim CAD, printing, or physical testing.
 
 ---
 
