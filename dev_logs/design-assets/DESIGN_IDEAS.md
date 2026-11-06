@@ -96,3 +96,25 @@ Single-piece open-back forearm enclosure, silhouette inspired by a bracer/vambra
 
 ---
 
+## DI-05 — Wrist/Forearm Fit Variants and Waist IMU Reference Module
+
+- **Status:** Exploratory architecture round; no concept selected and no CAD or fit validation completed.
+- **Date logged:** 2026-11-06
+- **Detailed concept brief:** [`ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md`](ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md)
+- **Visual concept board:** Generated during the discussion and shown in chat; not available as a repository asset.
+- **Baseline:** DI-03 remains the canonical engineering reference.
+
+**Concepts compared:**
+- **DI-03 baseline:** Continuous 270° TPU C-shell with dorsal wrist sensor zone and forearm electronics bay.
+- **ALT-A:** Separate adjustable wrist and forearm cuffs joined by a protected flexible wire bridge; the wrist cuff carries the IMU and the forearm cuff carries the electronics pod.
+- **ALT-B:** The same two-cuff and bridge arrangement with broader rounded sleeve-facing contact wings and replaceable comfort pads.
+- **ALT-C:** A dual-placement platform with a wrist IMU module and a separate waist module containing its own IMU. The purpose is to collect wrist- and waist-placement data and evaluate translation between them. The placements are distinct sensing configurations; interchangeability is not assumed.
+
+**BOM grounding:** The concepts reflect the current order form's TPU 95A filament, M2.5 machine screws and hex nuts, nylon waist belt with buckle, hook-and-loop wrist straps, compression arm sleeves, ESP32-S3 development boards, MPU6050 modules, 3.7 V 1100 mAh LiPo cells, TP4056 protected charging modules, 5 V boost converters, slide switches, and flexible 30 AWG silicone signal wire. These are planned BOM quantities, not confirmation of receipt.
+
+**Open packaging inputs:** The order form lists three ESP32-S3 boards and three MPU6050 modules but two LiPo cells, while the tracker describes two active nodes plus a spare chain. Spare-node battery allocation needs reconciliation. LiPo dimensions and connector are also unconfirmed. Measure received parts before freezing enclosure dimensions or ports.
+
+**Design boundary:** This entry records form-factor exploration only. It does not supersede DI-03, alter the BOM, validate comfort, establish wrist-to-waist signal translation, or claim CAD, printing, or physical testing.
+
+---
+
