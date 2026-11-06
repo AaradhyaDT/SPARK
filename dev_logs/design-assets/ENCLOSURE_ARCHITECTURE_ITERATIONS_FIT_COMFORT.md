@@ -15,6 +15,23 @@ For the waist node, develop two removable adapters that engage the same core doc
 
 **Product-design intent:** a recognizable shared core, clean rounded exterior, low-profile wrist sensor pod, simple one-handed wrist closure, serviceable electronics lid, and swappable waist adapters. These are design goals for a polished market-facing product, not substantiated usability or sales claims.
 
+## Product Presentation Iteration — 2026-11-06
+
+The requested single product-appeal iteration is shown in [`enclosure_product_pitch_iteration_v1.png`](enclosure_product_pitch_iteration_v1.png). Its presentation line is **“A considered fit. A shared core.”** The same rounded graphite core appears in the arm, belt, and beltless waistband views, with a smaller matching wrist sensor pod. The earlier architecture board remains available for engineering context.
+
+| Design element | Product iteration decision |
+|---|---|
+| Core form | Elongated rounded pebble with a shallow domed face, matte TPU finish, discreet SPARK marking, and a perimeter service seam. Retain volume for the existing development board and power modules; no smaller custom PCB is assumed. |
+| Service access | Move M2.5 screw/captive-nut access to the reverse, leaving a clean front. Removal from the dock exposes service access; screws and nuts require clearance checks. |
+| Arm fit | Small dorsal wrist IMU pod and larger forearm core on independent hook-and-loop straps, with a graspable wrist pull tab and compression sleeve underneath. |
+| Cable handling | Route the silicone signal harness in a removable rounded TPU guide close to the sleeve, with end strain relief and a wrist service loop. Check freedom of movement and snagging on a physical mockup. |
+| Waist adapters | Match the rounded core with a wide belt-loop carrier and broad waistband-clip carrier, both engaging the common keyed dock with a guarded release. Clip stiffness, release force, and retention remain prototype questions. |
+| Visual identity | Subtle debossed branding and a small amber light aperture. The light is a presentation cue using the BOM LED option; its position, visibility, power, and firmware behavior remain to be specified. |
+
+Use the same core shell and interior layout in both nodes, reserving a local IMU seat for waist use and a serviceable harness exit for the arm node. Explore a replaceable exit insert/cap to accommodate these two assemblies without changing the exterior core design. Maintain access to the actual charging/programming connectors and switch during packaging review; off-body charging remains required.
+
+This iteration provides a product form and pitch visual. It does not establish manufacturability, validated dimensions, latch geometry, customer demand, or sales performance. Evaluate appeal with representative users alongside physical fit and attachment trials before describing the design as a finished commercial product.
+
 ## Concepts
 
 ### DI-03 — Continuous 270° C-shell (baseline)
@@ -77,7 +94,10 @@ These are qualitative design hypotheses, not measured results or rankings.
 
 ## Visual concepts
 
-The revised concept board is [`enclosure_shared_core_arm_waist_adapters.png`](enclosure_shared_core_arm_waist_adapters.png). It is illustrative and should not be treated as a dimensioned design or fit evidence.
+- **Current product presentation:** [`enclosure_product_pitch_iteration_v1.png`](enclosure_product_pitch_iteration_v1.png).
+- **Earlier architecture board:** [`enclosure_shared_core_arm_waist_adapters.png`](enclosure_shared_core_arm_waist_adapters.png).
+
+Both are illustrative and should not be treated as dimensioned designs or fit evidence.
 
 ## BOM grounding (canonical order form, v64 tracker)
 

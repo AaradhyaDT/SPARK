@@ -102,6 +102,7 @@ Single-piece open-back forearm enclosure, silhouette inspired by a bracer/vambra
 - **Date logged:** 2026-11-06
 - **Detailed concept brief:** [`ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md`](ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md)
 - **Visual concept board:** [`enclosure_shared_core_arm_waist_adapters.png`](enclosure_shared_core_arm_waist_adapters.png) — shared electronics core, local wrist/waist IMUs, arm bridge, and two waist adapter options.
+- **Product presentation iteration:** [`enclosure_product_pitch_iteration_v1.png`](enclosure_product_pitch_iteration_v1.png) — one refinement toward a coherent consumer product: rounded graphite core, matching wrist pod, concealed reverse service fasteners, sleeve-following cable guide, and matching belt/waistband carriers.
 - **Baseline:** DI-03 remains the canonical engineering reference.
 
 **Concepts compared:**
@@ -111,6 +112,8 @@ Single-piece open-back forearm enclosure, silhouette inspired by a bracer/vambra
 - **ALT-C (preferred waist configuration):** Separate waist node containing a copy of the same core and its own local MPU6050. A common keyed dock accepts either a nylon-belt adapter or a beltless waistband clip. The intended garment modes do not imply fit across every garment.
 
 **Uniform core and product direction:** Use one electronics-core enclosure/interface design reproduced in the wrist/arm and waist nodes, with placement-specific IMUs and mechanically distinct attachments. Pairing supports wrist/waist data collection; it does not establish signal equivalence. Design intent is a coherent, rounded, serviceable product with a low-profile wrist sensor, simple arm closure, and interchangeable waist attachments. These are product-design goals, not validated usability or sales claims.
+
+**Product iteration decisions:** Keep the existing BOM electronics and TPU 95A/M2.5 construction; use a clean pebble-shaped face and reverse-access fasteners, a removable cable guide with wrist service loop, and a guarded release on the common dock. Reserve core space for the waist IMU and a serviceable arm-harness exit/cap. The amber light in the pitch render is a visual cue whose LED placement and firmware behavior require specification. The presentation is intended to communicate product desirability; customer demand, garment retention, component fit, and manufacturability remain unverified.
 
 **BOM grounding:** The concepts reflect the current order form's TPU 95A filament, M2.5 machine screws and hex nuts, nylon waist belt with buckle, hook-and-loop wrist straps, compression arm sleeves, ESP32-S3 development boards, MPU6050 modules, 3.7 V 1100 mAh LiPo cells, TP4056 protected charging modules, 5 V boost converters, slide switches, and flexible 30 AWG silicone signal wire. These are planned BOM quantities, not confirmation of receipt.
 
