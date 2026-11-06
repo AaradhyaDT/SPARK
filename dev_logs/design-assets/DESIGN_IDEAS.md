@@ -103,6 +103,7 @@ Single-piece open-back forearm enclosure, silhouette inspired by a bracer/vambra
 - **Detailed concept brief:** [`ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md`](ENCLOSURE_ARCHITECTURE_ITERATIONS_FIT_COMFORT.md)
 - **Visual concept board:** [`enclosure_shared_core_arm_waist_adapters.png`](enclosure_shared_core_arm_waist_adapters.png) — shared electronics core, local wrist/waist IMUs, arm bridge, and two waist adapter options.
 - **Product presentation iteration:** [`enclosure_product_pitch_iteration_v1.png`](enclosure_product_pitch_iteration_v1.png) — one refinement toward a coherent consumer product: rounded graphite core, matching wrist pod, concealed reverse service fasteners, sleeve-following cable guide, and matching belt/waistband carriers.
+- **Hidden-issue iteration:** [`enclosure_hidden_issues_iteration_v2.png`](enclosure_hidden_issues_iteration_v2.png) — explores off-body service access, waist support and latch, battery retention, antenna clearance, and harness strain relief; all remain provisional pending physical checks.
 - **Baseline:** DI-03 remains the canonical engineering reference.
 
 **Concepts compared:**

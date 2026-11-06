@@ -32,6 +32,17 @@ Use the same core shell and interior layout in both nodes, reserving a local IMU
 
 This iteration provides a product form and pitch visual. It does not establish manufacturability, validated dimensions, latch geometry, customer demand, or sales performance. Evaluate appeal with representative users alongside physical fit and attachment trials before describing the design as a finished commercial product.
 
+## Hidden-Issue Iteration — 2026-11-06
+
+[`enclosure_hidden_issues_iteration_v2.png`](enclosure_hidden_issues_iteration_v2.png) explores a protected service panel with separately identified programming and charging openings, strain relief at both harness ends, wide waist-adapter support, a guarded dock release, and a serviceable common core. These are proposed features, not evidence of fit, retention, thermal performance, or electrical safety. The wrist IMU receives power through the harness.
+
+- **Packaging and power:** Measure the received board, connectors, cell, protection/charger, boost converter, switch, and harness before placing pockets or service ports. Preserve non-compressive battery retention and assess charger heat and access with the real parts. Charging remains off-body.
+- **Radio:** Locate the actual ESP32-S3 antenna before arranging battery, hardware, and dock. Espressif recommends sufficient clearance within the finished housing and end-product range/throughput checks ([ESP32-S3 hardware design guidelines](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/pcb-layout-design.html)). The rendering's dashed antenna zone is illustrative and its position is not an engineering layout.
+- **Retention and measurement:** Prototype the belt and waistband carriers on representative garments, testing retention, rotation, fabric marking, release, and sensor orientation through walking, sitting, and donning. Confirm independent wrist and waist IMU locations and record their axes and synchronization.
+- **Assembly and service:** Check the flex guide and strain relief over wrist movement, prevent pinching at the lid, and prototype a guarded release and service fasteners. Validate connector clearances and distinct port identification using the actual modules.
+
+The illustrated component layout, ports, clip, latch, and shell are conceptual; no dimensions, interfaces, electrical interlocks, or fit are verified by the render. Keep DI-03 canonical until the team selects a validated direction.
+
 ## Concepts
 
 ### DI-03 — Continuous 270° C-shell (baseline)
